@@ -1,65 +1,63 @@
 <template>  
     <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-        <a class="navbar-item">
-            <figure>
-                <img src="../assets/logo.png"/>
-            </figure>
-            BugHound
-        </a>
-
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-        <a class="navbar-item">
-            Home
-        </a>
-
-        <a class="navbar-item">
-            Documentation
-        </a>
-
-        <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-            More
-            </a>
-
-            <div class="navbar-dropdown">
+        <div class="navbar-brand">
             <a class="navbar-item">
-                About
+                <figure class="logo">
+                    <img src="../assets/logoname.png"/>
+                </figure>
             </a>
-            <a class="navbar-item">
-                Jobs
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
             </a>
-            <a class="navbar-item">
-                Contact
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-                Report an issue
-            </a>
-            </div>
-        </div>
         </div>
 
         <div class="navbar-end">
-        <div class="navbar-item">
-            <div class="buttons">
-            <a class="button is-primary">
-                <strong>Sign up</strong>
-            </a>
-            <a class="button is-light">
-                Log in
-            </a>
+            <div class="navbar-item">
+                <div class="buttons">
+                <a class="button is-outlined">
+                    <strong>Sign up</strong>
+                </a>
+                <a class="button is-outlined" @click="toggleLogin(true)">
+                    Log in
+                </a>
+                </div>
             </div>
+            <login v-if="login" v-on:toggle="toggleLogin"/>
         </div>
-        </div>
-    </div>
     </nav>
 </template>
+
+<script>
+import login from './LoginModal'
+export default {
+  name:'NavBar',
+  components:{
+    login:login
+  },
+  data(){
+    return {
+      login:false
+    };
+  },
+  methods:{
+    toggleLogin(value){
+      this.login=value;
+    }
+  }
+}
+</script>
+
+<style scoped>
+    .navbar{
+        background:#7957D5;
+    }
+    .logo{
+        padding-top: 5%;
+    }
+    .button{
+        color: #7957D5;
+        background: white;
+    }
+</style>
