@@ -16,7 +16,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                <a class="button is-outlined">
+                <a class="button is-outlined" @click="toggleSignin(true)">
                     <strong>Sign up</strong>
                 </a>
                 <a class="button is-outlined" @click="toggleLogin(true)">
@@ -25,25 +25,32 @@
                 </div>
             </div>
             <login v-if="login" v-on:toggle="toggleLogin"/>
+            <signup v-if="signup" v-on:toggle="toggleSignin"/>
         </div>
     </nav>
 </template>
 
 <script>
-import login from './LoginModal'
+import login from './LoginModal';
+import signup from './SignUpModal';
 export default {
   name:'NavBar',
   components:{
-    login:login
+    login:login,
+    signup:signup
   },
   data(){
     return {
-      login:false
+      login:false,
+      signup:true
     };
   },
   methods:{
     toggleLogin(value){
       this.login=value;
+    },
+    toggleSignin(value){
+      this.signup=value;
     }
   }
 }
