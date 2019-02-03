@@ -42,7 +42,7 @@ export default {
   data(){
     return {
       login:false,
-      signup:true
+      signup:false
     };
   },
   methods:{
