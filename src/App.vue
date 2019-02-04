@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <navbar/>
+    <navbar v-if="!this.$store.getters['userInfo/LoggedIn']"/>
+    <usernav v-if="this.$store.getters['userInfo/LoggedIn']"/>
     <router-view/>
   </div>
 </template>
 
 <script>
-  import navbar from './components/Navbar.vue'
+  import navbar from './components/Navbar.vue';
+  import usernav from './components/UserNavbar.vue';
   export default {
     name: 'App',
     components:{
-      navbar:navbar
+      navbar:navbar,
+      usernav:usernav
     }
   }
 </script>

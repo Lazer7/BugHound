@@ -7,8 +7,10 @@ import store from './store/index.js';
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
 import 'bulma/css/bulma.css';
+import 'bulma-extensions';
+import Icon from 'vue-awesome/components/Icon';
 
-
+Vue.component('v-icon', Icon);
 Vue.use(Buefy);
 Vue.config.productionTip = false;
 

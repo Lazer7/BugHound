@@ -12,7 +12,16 @@
             <span aria-hidden="true"></span>
             </a>
         </div>
-
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" @click="gohomepage">
+                    Home
+                </a>
+                <a class="navbar-item">
+                    Documentation
+                </a>
+            </div>
+        </div>
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
@@ -51,7 +60,14 @@ export default {
     },
     toggleSignin(value){
       this.signup=value;
-    }
+    },
+
+
+    gohomepage(){
+        this.$router.push('/');
+        console.log('clicked');
+    },
+    
   }
 }
 </script>
@@ -60,11 +76,21 @@ export default {
     .navbar{
         background:#7957D5;
     }
+    .navbar-item{
+        color:white;
+    }
+    .navbar-link{
+        color:white;
+    }
     .logo{
         padding-top: 5%;
     }
     .button{
         color: #7957D5;
         background: white;
+    }
+    .button:hover{
+        color: white;
+        background: #7957D5;
     }
 </style>

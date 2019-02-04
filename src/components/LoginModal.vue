@@ -10,11 +10,11 @@
       <section class="modal-card-body">
         <div class="has-text-left">
             <b-field label="Username">
-                <b-input value="" placeholder="Username"></b-input>
+                <b-input v-model="username" placeholder="Username"></b-input>
             </b-field>
             <b-field label="Password">
                 <b-input type="password"
-                    value=""
+                    v-model="password"
                     placeholder="Password"
                     password-reveal>
                 </b-input>
@@ -22,7 +22,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" >Login</button>
+        <button class="button is-success" @click="login">Login</button>
         <button class="button is-success" @click="close">Cancel</button>
       </footer>
     </div>
@@ -31,9 +31,23 @@
 <script>
 export default {
   name:'Login',
+  data(){
+    return{
+      username:"",
+      password:""
+    }
+  },
   methods:{
     close(){
       this.$emit('toggle', false);
+    },
+    login(){
+      this.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});
+      this.toUserPage();
+      this.close();
+    },
+    toUserPage(){
+      this.$router.push('/Main');
     }
   }
 }

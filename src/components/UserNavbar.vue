@@ -1,0 +1,76 @@
+<template>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item">
+        <figure class="logo">
+          <img src="../assets/logoname.png"/>
+        </figure>
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item">
+          Home
+        </a>
+      </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-outlined" @click="logout">
+              <strong>Log Out</strong>
+            </a>
+          </div>
+        </div>
+    </div>
+  </nav>
+</template>
+
+<script>
+import Swal from 'sweetalert2';
+export default {
+  name:'usernav',
+  methods:{
+    logout(){
+      this.$store.dispatch('userInfo/resetUser');
+      this.$router.push('/');
+      Swal.fire({
+        title:"Logged Out",
+        type:"success"
+      })
+    }
+  }
+}
+</script>
+
+
+<style scoped>
+    .navbar{
+        background:#7957D5;
+    }
+    .navbar-item{
+        color:white;
+    }
+    .navbar-link{
+        color:white;
+    }
+    .logo{
+        padding-top: 5%;
+    }
+    .button{
+        color: #7957D5;
+        background: white;
+    }
+    .buttons :hover{
+      color:white;
+      background:#7957D5;
+    }
+</style>
