@@ -1,8 +1,18 @@
-# bughound
+<p align="Left">
+<img src="src/assets/logoname.png">
+</p>
 
-> A software to track bugs
+# Bug Hound
+> A web-based bug recording and tracking software product. This is a free-service(maybe) that will allow users to manage, record, and update any bugs during their development of their programming projects. 
 
-## Build Setup
+## Key Features
+- Using web browser, create, edit, and update "bug" reports on multiple products
+- Store error report contents in relational tables
+- Access error reports content via SQL
+- Search for bugs on multiple fields
+- Facilities to add, delete or update infomration n program, releases, functional area, employees
+
+## Project Setup
 
 ``` bash
 # install dependencies
@@ -24,4 +34,5 @@ npm run unit
 npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+For the Bug Hound API please check out 
+[Bug Hound API](https://github.com/zlatkovtv/BugHound_API).
