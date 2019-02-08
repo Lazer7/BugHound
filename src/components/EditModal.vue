@@ -4,7 +4,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title has-text-left">                        
-            Sign Up
+            Edit User
         </p>
       </header>
       <section class="modal-card-body">
@@ -23,6 +23,16 @@
                     password-reveal>
                 </b-input>
             </b-field>
+            <b-field label="User Level">
+                <b-select placeholder="User Level" v-model="userlevel">
+                    <option
+                        v-for="level in dataLevel"
+                        :value="level"
+                        :key="level">
+                        {{ level }}
+                    </option>
+                </b-select>
+            </b-field>
             <b-field label="Username">
                 <b-input value="" placeholder="Username"></b-input>
             </b-field>
@@ -40,21 +50,10 @@
                     password-reveal>
                 </b-input>
             </b-field>
-            <b-field label="User Level">
-                <b-select placeholder="Level" v-model="userlevel">
-                    <option
-                    placeholder="Select a name"
-                        v-for="level in data"
-                        :value="level"
-                        :key="level">
-                        {{ level }}
-                    </option>
-                </b-select>
-            </b-field>
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" @click="signUp">Sign Up</button>
+        <button class="button is-success" @click="edit">Edit</button>
         <button class="button is-success" @click="close">Cancel</button>
       </footer>
     </div>
@@ -63,6 +62,7 @@
 <script>
 export default {
   name:'Login',
+  props:['data'],
   data(){
     return{
       username:"",
@@ -71,31 +71,37 @@ export default {
       firstname:"",
       lastname:"",
       userlevel:0,
-      data: ['1','2','3','4','5']
+      dataLevel: ['1','2','3','4','5']
     }
+  },
+  mounted(){
+      this.firstname=this.data.firstname;
+      this.lastname=this.data.lastname;
+      this.userlevel = this.data.userlevel;
   },
   methods:{
     close(){
       this.$emit('toggle', false);
     },
-    signUp(){
+    edit(){
       var self = this;
       var user ={
-        username:this.username,
-        password:this.password,
+        id: this.data.id,
         firstname:this.firstname,
         lasname:this.lastname,
-        userlevel:this.userLevel
+        userlevel:this.userLevel,
+        username:this.username,
+        password:this.password
       }
-      axios.post(this.$store.getters['routes/addEmployee'],user).then((result)=>{
-          self.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});
-          self.toUserPage();
-          self.close();
+      axios.put(this.$store.getters['routes/editEmployee'],user).then((result)=>{
+        self.toEmployee();
+        self.vm.$forceUpdate();
+        self.close();
       })
-      
+
     },
-    toUserPage(){
-      this.$router.push('/Main');
+    toEmployee(){
+      this.$router.push('/Main/Employee');
     }
   }
 }
