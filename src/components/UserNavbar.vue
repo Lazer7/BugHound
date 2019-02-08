@@ -43,7 +43,9 @@ export default {
       this.$store.dispatch('userInfo/resetUser');
       this.$router.push('/');
       Swal.fire({
-        title:"Logged Out",
+        background:"#2d2d2d",
+        color:"#ffffff",
+        title:`<span style="color:#FFFFFF">Logged Out`,
         type:"success"
       })
     }
@@ -53,6 +55,9 @@ export default {
 
 
 <style scoped>
+    .swal2-title{
+      color:white !important;
+    }
     .navbar{
         background:#2d2d2d;
     }
