@@ -22,8 +22,8 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" @click="login">Login</button>
-        <button class="button is-success" @click="close">Cancel</button>
+        <button class="button" @click="login" :disabled="isEmpty">Login</button>
+        <button class="button" @click="close">Cancel</button>
       </footer>
     </div>
   </div>
@@ -35,6 +35,13 @@ export default {
     return{
       username:"",
       password:""
+    }
+  },
+  computed:{
+    isEmpty(){
+      if(this.username==="") return true;
+      if(this.password==="") return true;
+      return false;
     }
   },
   methods:{

@@ -4,27 +4,45 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title has-text-left">                        
-            Edit User
+            <strong>Edit User</strong>
         </p>
       </header>
       <section class="modal-card-body">
-        <div class="has-text-left">
+       <div class="has-text-left">
             <b-field label="First Name">
                 <b-input 
                     v-model="firstname"
                     placeholder="First Name"
-                    password-reveal>
-                </b-input>
+                    maxlength="32"/>
             </b-field>
             <b-field label="Last Name">
                 <b-input 
                     v-model="lastname"
                     placeholder="Last Name"
-                    password-reveal>
-                </b-input>
+                    maxlength="32"/>
             </b-field>
+            <b-field label="Username">
+                <b-input v-model="username" 
+                      value="" 
+                      placeholder="Username"
+                      maxlength="32"/>
+            </b-field>
+            <b-field label="Password">
+                <b-input type="password"
+                    v-model="password"
+                    placeholder="Password"
+                    password-reveal/>
+            </b-field>
+
+            <b-field label="Re-type Password" :type="mismatchPasswords" :message="mismatchMessage">
+                <b-input type="password"
+                    v-model="password2"
+                    placeholder="Re-type Password"
+                    password-reveal/>
+            </b-field>
+
             <b-field label="User Level">
-                <b-select placeholder="User Level" v-model="userlevel">
+                <b-select placeholder="Level" v-model="userlevel">
                     <option
                         v-for="level in dataLevel"
                         :value="level"
@@ -33,28 +51,11 @@
                     </option>
                 </b-select>
             </b-field>
-            <b-field label="Username">
-                <b-input v-model="username" value="" placeholder="Username"></b-input>
-            </b-field>
-            <b-field label="Password">
-                <b-input type="password"
-                    v-model="password"
-                    placeholder="Password"
-                    password-reveal>
-                </b-input>
-            </b-field>
-            <b-field label="Re-type Password">
-                <b-input type="password"
-                    v-model="password2"
-                    placeholder="Re-type Password"
-                    password-reveal>
-                </b-input>
-            </b-field>
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" @click="edit">Edit</button>
-        <button class="button is-success" @click="close">Cancel</button>
+        <button class="button" @click="edit" :disabled="validate">Edit</button>
+        <button class="button" @click="close">Cancel</button>
       </footer>
     </div>
   </div>
@@ -73,6 +74,26 @@ export default {
       lastname:"",
       userlevel:0,
       dataLevel: ['1','2','3','4','5']
+    }
+  },
+  computed:{
+    validate(){
+      if(this.username==="") return true;
+      if(this.password==="") return true;
+      if(this.password2==="") return true;
+      if(this.password2 !== this.password) return true;
+      if(this.firstname==="")return true;
+      if(this.lastname==="")return true;
+      if(this.userlevel===undefined)return true;
+      return false;
+    },
+    mismatchPasswords(){
+      if(this.password2 !== this.password) return 'password is-danger';
+      else return 'password'
+    },
+    mismatchMessage(){
+      if(this.password2 !== this.password) return 'Passwords do not match';
+      else{ return ""}
     }
   },
   mounted(){

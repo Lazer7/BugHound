@@ -18,7 +18,7 @@ const getters={
     return state.APIAddress + state.authen;
   },
   deleteEmployee:(state)=>{
-    return state.APIAddress + state.authen + query;
+    return state.APIAddress + state.authen + state.query;
   }
 };
 const actions={};

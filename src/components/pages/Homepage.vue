@@ -52,7 +52,7 @@
                 </figure><br/>
                 <div class="section">
                 A huge weeb with very little knowledge of what he is doing. Sometimes he wonder what the point of trying so hard is.
-                He works hard for nothing, and consumes endless amounts of Sprite. Becare around this individual.
+                He works hard for nothing, and consumes endless amounts of Sprite. Be careful around this individual.
                 </div>
               </div>
               <div class="column">
