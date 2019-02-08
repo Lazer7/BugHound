@@ -13,11 +13,11 @@
             </thead>
             <tbody>
                 <tr v-for="(value,index) in data" :key="index">
-                    <th>{{value.employee.id}}</th>
-                    <th>{{value.employee.firstname}}</th>
-                    <th>{{value.employee.lastname}}</th>
-                    <th>{{value.employee.userlevel}}</th>
-                    <th><a class="button" @click="toggleEdit(value.employee)">Edit</a> <a class="button">Delete</a></th>                    
+                    <th>{{value.id}}</th>
+                    <th>{{value.firstname}}</th>
+                    <th>{{value.lastname}}</th>
+                    <th>{{value.userlevel}}</th>
+                    <th><a class="button" @click="toggleEdit(value)">Edit</a> <a class="button">Delete</a></th>                    
                 </tr>
             </tbody>
 
@@ -40,20 +40,27 @@ export default {
             editData:{}
         }
     },
-    create(){
-        var self = this;
-        axios.get(this.$store.getters['routes/getEmployees']).then((result)=>{
-            self.data = result.data;
-        })
+    created(){
+        
+        this.getValue();
     },
     methods:{
+        getValue(){
+            var self = this;
+            axios.get(this.$store.getters['routes/getEmployees']).then((result)=>{
+             console.log(result.data.employees);
+             self.data = result.data.employees;
+           })
+        },
         toggleEdit(value){
             console.log(value);
             this.editData = value;
             this.editModal = true;
         },
         closeEdit(){
+            this.getValue();
             this.editModal = false;
+            this.$forceUpdate();
         }
     }
 }

@@ -24,7 +24,7 @@
                 </b-input>
             </b-field>
             <b-field label="Username">
-                <b-input value="" placeholder="Username"></b-input>
+                <b-input v-model="username" value="" placeholder="Username"></b-input>
             </b-field>
             <b-field label="Password">
                 <b-input type="password"
@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
   name:'Login',
   data(){
@@ -84,8 +85,8 @@ export default {
         username:this.username,
         password:this.password,
         firstname:this.firstname,
-        lasname:this.lastname,
-        userlevel:this.userLevel
+        lastname:this.lastname,
+        userlevel:this.userlevel
       }
       axios.post(this.$store.getters['routes/addEmployee'],user).then((result)=>{
           self.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});

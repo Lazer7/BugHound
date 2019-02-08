@@ -34,7 +34,7 @@
                 </b-select>
             </b-field>
             <b-field label="Username">
-                <b-input value="" placeholder="Username"></b-input>
+                <b-input v-model="username" value="" placeholder="Username"></b-input>
             </b-field>
             <b-field label="Password">
                 <b-input type="password"
@@ -60,6 +60,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
   name:'Login',
   props:['data'],
@@ -78,6 +79,7 @@ export default {
       this.firstname=this.data.firstname;
       this.lastname=this.data.lastname;
       this.userlevel = this.data.userlevel;
+      this.username = this.data.username;
   },
   methods:{
     close(){
@@ -88,14 +90,14 @@ export default {
       var user ={
         id: this.data.id,
         firstname:this.firstname,
-        lasname:this.lastname,
-        userlevel:this.userLevel,
+        lastname:this.lastname,
+        userlevel:this.userlevel,
         username:this.username,
         password:this.password
       }
       axios.put(this.$store.getters['routes/editEmployee'],user).then((result)=>{
         self.toEmployee();
-        self.vm.$forceUpdate();
+        self.$forceUpdate();
         self.close();
       })
 
