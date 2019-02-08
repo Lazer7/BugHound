@@ -13,11 +13,14 @@
             </thead>
             <tbody>
                 <tr v-for="(value,index) in data" :key="index">
-                    <th>{{value.id}}</th>
+                    <th class="has-text-centered">{{value.id}}</th>
                     <th>{{value.firstname}}</th>
                     <th>{{value.lastname}}</th>
-                    <th>{{value.userlevel}}</th>
-                    <th><a class="button" @click="toggleEdit(value)">Edit</a> <a class="button">Delete</a></th>                    
+                    <th class="has-text-centered">{{value.userlevel}}</th>
+                    <th>
+                        <a class="button" @click="toggleEdit(value)"> <v-icon name="edit"/><label>Edit</label></a> 
+                        <a class="button"><v-icon name="trash"/><label>Delete</label></a>
+                    </th>                    
                 </tr>
             </tbody>
 
@@ -27,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import 'vue-awesome/icons';
 import edit from '../EditModal';
 export default {
     name:"employee",
@@ -67,17 +71,21 @@ export default {
 </script>
 
 <style scoped>
+    label{
+        margin-left:5%;
+    }
     .table{
         margin:auto;
         margin-top:2%;
     }
-    .button{
-        color: #7957D5;
-        background: white;
-    }
-    .button:hover{
-        color: white;
-        background: #7957D5;
-    }
+  .button{
+      background:white;
+    color:#2d2d2d;
+
+  }
+  .button:hover{
+        background: #2d2d2d;
+    color: white;
+  }
 </style>
 
