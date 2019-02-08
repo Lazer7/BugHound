@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
     .navbar{
-        background:#7957D5;
+        background:#2d2d2d;
     }
     .navbar-item{
         color:white;
@@ -66,11 +66,11 @@ export default {
         padding-top: 5%;
     }
     .button{
-        color: #7957D5;
+        color: #2d2d2d;
         background: white;
     }
-    .buttons :hover{
+    .button:hover{
       color:white;
-      background:#7957D5;
+      background:#2d2d2d;
     }
 </style>

@@ -60,6 +60,11 @@ export default {
     width:20%;
   }
   .button{
-    background: #7957D5;
+    background: #2d2d2d;
+    color: white;
+  }
+  .button:hover{
+    background:white;
+    color:#2d2d2d;
   }
 </style>

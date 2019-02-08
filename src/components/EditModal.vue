@@ -116,6 +116,11 @@ export default {
     width:20%;
   }
   .button{
-    background: #7957D5;
+    background: #2d2d2d;
+    color:#FFFFFF;
+  }
+  .button:hover{
+    background: #ffffff;
+    color: #2d2d2d;
   }
 </style>

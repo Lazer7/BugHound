@@ -54,8 +54,8 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success" @click="signUp">Sign Up</button>
-        <button class="button is-success" @click="close">Cancel</button>
+        <button class="button" @click="signUp">Sign Up</button>
+        <button class="button" @click="close">Cancel</button>
       </footer>
     </div>
   </div>
@@ -109,6 +109,11 @@ export default {
     width:20%;
   }
   .button{
-    background: #7957D5;
+    background: #2d2d2d;
+    color:#FFFFFF;
+  }
+  .button:hover{
+    background: #ffffff;
+    color: #2d2d2d;
   }
 </style>
