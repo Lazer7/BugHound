@@ -4,16 +4,16 @@
             General
         </p>
         <ul class="menu-list">
-            <li><a :class="tab[0]" @click=" switchTab(0)">Dashboard</a></li>
-            <li><a :class="tab[1]" @click=" switchTab(1)">Your Bug List</a></li>
-            <li><a :class="tab[2]" @click=" switchTab(2)">View All Bugs</a></li>
+            <li><a :class="tab[0]" @click=" toDashBoard(0)">Dashboard</a></li>
+            <li><a :class="tab[1]" @click=" toUserBugPage(1)">Your Bug List</a></li>
+            <li><a :class="tab[2]" @click=" toCompanyBugPage(2)">View All Bugs</a></li>
         </ul>
         <p class="menu-label">
             Programs
         </p>
         <ul class="menu-list">
-            <li><a :class="tab[3]" @click=" switchTab(3)">Add New Program</a></li>
-            <li><a :class="tab[4]" @click=" switchTab(4)">Join Program</a></li>
+            <li><a :class="tab[3]" @click=" toAddProgramPage(3)">Add New Program</a></li>
+            <li><a :class="tab[4]" @click=" toJoinProgramPage(4)">Join Program</a></li>
         </ul>
         <p class="menu-label">
             Administration
@@ -31,6 +31,9 @@ export default {
             tab:['is-active','','','','','','']
         }
     },
+    mounted(){
+        this.$router.push('Main/Dashboard');
+    },
     methods:{
         switchTab(value){
             this.tab=[];
@@ -38,6 +41,26 @@ export default {
         },
         toEmployeePage(value){
             this.$router.push('/Main/Employee');
+            this.switchTab(value);
+        },
+        toCompanyBugPage(value){
+            this.$router.push('/Main/CompanyBugList');
+            this.switchTab(value);
+        },
+        toUserBugPage(value){
+            this.$router.push('/Main/UserBugList');
+            this.switchTab(value);
+        },
+        toAddProgramPage(value){
+            this.$router.push('/Main/Programs');
+            this.switchTab(value);
+        },
+        toJoinProgramPage(value){
+            this.$router.push('/Main/JoinProgram');
+            this.switchTab(value);
+        },
+        toDashBoard(value){
+            this.$router.push('/Main/DashBoard');
             this.switchTab(value);
         }
     }

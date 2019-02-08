@@ -4,6 +4,11 @@ import Homepage from '@/components/pages/Homepage';
 import Userpage from '@/components/pages/UserHome';
 import ProgramPage from '@/components/pages/ProgramPage';
 import EmployeePage from '@/components/pages/EmployeePage';
+import Dashboard from '@/components/pages/Dashboard';
+import UserBugList from '@/components/pages/UserBugList';
+import JoinProgramPage from '@/components/pages/JoinProgramPage';
+import CompanyBugList from '@/components/pages/CompanyBugList';
+
 import store from '../store/index';
 Vue.use(Router);
 Vue.use(store);
@@ -30,6 +35,26 @@ export default new Router({
           path: '/Main/Employee',
           name:'Employee',
           component: EmployeePage
+        },
+        {
+          path:'/Main/DashBoard',
+          name:'Dashboard',
+          component:Dashboard
+        },
+        {
+          path:'/Main/UserBugList',
+          name:'UserList',
+          component:UserBugList
+        },
+        {
+          path:'/Main/JoinProgram',
+          name:'JoinProgram',
+          component:JoinProgramPage
+        },
+        {
+          path:'/Main/CompanyBugList',
+          name:'CompanyList',
+          component:CompanyBugList
         }
       ],
       beforeEnter:(to,from,next)=>{

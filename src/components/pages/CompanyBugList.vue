@@ -1,5 +1,5 @@
 <template>
     <div>
-        Add a program
+        Company Bug List
     </div>
 </template>

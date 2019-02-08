@@ -1,5 +1,5 @@
 <template>
     <div>
-        Add a program
+        Join Program Page
     </div>
 </template>
