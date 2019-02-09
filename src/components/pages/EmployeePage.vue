@@ -1,5 +1,8 @@
 <template>
-    <div>
+  <div class="section has-text-left">
+    <img width="40%" src="../../assets/employees.png"/>
+      <div class="container">
+          <div class="notification">
         <edit v-if="editModal" :data="editData" v-on:toggle="closeEdit"/>
         <table class="table">
             <thead>
@@ -26,6 +29,8 @@
 
         </table>
     </div>
+      </div>
+      </div>
 </template>
 
 <script>
@@ -72,7 +77,7 @@ export default {
 
 <style scoped>
     label{
-        margin-left:5%;
+       padding-left:5%;
     }
     .table{
         margin:auto;

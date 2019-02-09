@@ -15,8 +15,7 @@
             <b-field label="Password">
                 <b-input type="password"
                     v-model="password"
-                    placeholder="Password"
-                    password-reveal>
+                    placeholder="Password">
                 </b-input>
             </b-field>
         </div>
@@ -74,4 +73,5 @@ export default {
     background:white;
     color:#2d2d2d;
   }
+
 </style>

@@ -1,5 +1,8 @@
+import { stat } from "fs";
+
 const state = {
-  User : {}
+  User : {},
+  CurrentPage: ['is-active']
 };
 const getters={
   User:(state)=>{
@@ -7,6 +10,9 @@ const getters={
   },
   LoggedIn:(state)=>{
     return Object.entries(state.User).length === 0? false:true;
+  },
+  CurrentPage:(state)=>{
+    return state.CurrentPage;
   }
 };
 const actions={
@@ -16,10 +22,17 @@ const actions={
   resetUser:({state,commit})=>{
     commit('setUser',{});
   },
+  setCurrentPage:({state,commit},value)=>{
+    commit('setCurrentPage',value);
+  }
 };
 const mutations={
   setUser:(state,payload)=>{
     state.User = payload;
+  },
+  setCurrentPage:(state,payload)=>{
+    state.CurrentPage = [];
+    state.CurrentPage[payload]='is-active';
   }
 };
   

@@ -2,10 +2,12 @@
     <div class="Userpage">
         <div class="columns">
           <div class="column is-2">
+            <div class="context">
             <context/>
+            </div>
           </div>
           <div class="column">
-            <router-view/>
+              <router-view/>
           </div>
         </div>
     </div>
@@ -23,5 +25,8 @@ export default {
 </script>
 
 <style scoped>
-  
+.context{
+    top:0;
+    position: fixed;
+}
 </style>

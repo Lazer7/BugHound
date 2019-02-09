@@ -30,15 +30,13 @@
             <b-field label="Password" :type="validPassword" :message="validMessage">
                 <b-input type="password"
                     v-model="password"
-                    placeholder="Password"
-                    password-reveal/>
+                    placeholder="Password"/>
             </b-field>
 
             <b-field label="Re-type Password" :type="mismatchPasswords" :message="mismatchMessage">
                 <b-input type="password"
                     v-model="password2"
-                    placeholder="Re-type Password"
-                    password-reveal/>
+                    placeholder="Re-type Password"/>
             </b-field>
 
             <b-field label="User Level">

@@ -8,7 +8,8 @@ import Dashboard from '@/components/pages/Dashboard';
 import UserBugList from '@/components/pages/UserBugList';
 import JoinProgramPage from '@/components/pages/JoinProgramPage';
 import CompanyBugList from '@/components/pages/CompanyBugList';
-
+import BugSubmission from '@/components/pages/BugSubmissionPage';
+import Area from '@/components/pages/AreaPages';
 import store from '../store/index';
 Vue.use(Router);
 Vue.use(store);
@@ -55,6 +56,16 @@ export default new Router({
           path:'/Main/CompanyBugList',
           name:'CompanyList',
           component:CompanyBugList
+        },
+        {
+          path:'/Main/BugSubmission',
+          name:'BugSubmission',
+          component:BugSubmission
+        },
+        {
+          path:'/Main/Area',
+          name:'Area',
+          component:Area
         }
       ],
       beforeEnter:(to,from,next)=>{
@@ -65,6 +76,14 @@ export default new Router({
           next('/');
         }
       }
+    },
+    {
+      path:'*',
+      name:'Error',
+      meta:{
+        title:"Error"
+      },
+      component:Homepage
     }
   ]
 });
