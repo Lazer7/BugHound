@@ -114,7 +114,7 @@ export default {
         username:this.username,
         password:this.password
       }
-      axios.put(this.$store.getters['routes/editEmployee'],user).then((result)=>{
+      axios.put(this.$store.getters['routes/employeeRoute'],user).then((result)=>{
         self.toEmployee();
         self.$forceUpdate();
         self.close();

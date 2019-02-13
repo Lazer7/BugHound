@@ -1,7 +1,15 @@
+import { stat } from "fs";
+
 const state = {
   APIAddress : "http://localhost:2017/",
-  authen: "employee",
-  getEmployee:"employees",
+  employee: "employee/",
+  program: "program/",
+  area:"area/",
+  bugs:"bug/",
+  getBugs: "bug/all/",
+  getArea: "area/all/",
+  getProgram: "program/all/",
+  getEmployees:"employee/all/",
   query:""
 };
 const getters={
@@ -9,16 +17,28 @@ const getters={
     return state.APIAddress;
   },
   getEmployees:(state)=>{
-    return state.APIAddress + state.getEmployee;
+    return state.APIAddress + state.getEmployees;
   },
-  addEmployee:(state)=>{
-    return state.APIAddress + state.authen;
+  getProgram:(state)=>{
+    return state.APIAddress + state.getProgram;
   },
-  editEmployee:(state)=>{
-    return state.APIAddress + state.authen;
+  getArea:(state)=>{
+    return state.APIAddress + state.getArea;
   },
-  deleteEmployee:(state)=>{
-    return state.APIAddress + state.authen + state.query;
+  getBugs:(state)=>{
+    return state.APIAddress + state.getBugs;
+  },
+  employeeRoute:(state)=>{
+    return state.APIAddress + state.employee;
+  },
+  programRoute:(state)=>{
+    return state.APIAddress + state.program;
+  },
+  areaRoute:(state)=>{
+    return state.APIAddress + state.area;
+  },
+  bugRoute:(state)=>{
+    return state.APIAddress + state.area;
   }
 };
 const actions={};

@@ -3,7 +3,7 @@
         <div class="navbar-brand">
             <a class="navbar-item">
                 <figure class="logo">
-                    <img src="../assets/logoname.png"/>
+                    <img src="../../assets/logoname.png"/>
                 </figure>
             </a>
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import login from './LoginModal';
-import signup from './SignUpModal';
+import login from '../modals/LoginModal';
+import signup from '../modals/SignUpModal';
 export default {
   name:'NavBar',
   components:{

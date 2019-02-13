@@ -36,7 +36,7 @@
 <script>
 import axios from 'axios';
 import 'vue-awesome/icons';
-import edit from '../EditModal';
+import edit from '../modals/EmployeeEditModal';
 export default {
     name:"employee",
     components:{

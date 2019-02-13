@@ -13,9 +13,8 @@
     </div>
 </template>
 <script>
-import login from '../LoginModal';
 import 'vue-awesome/icons';
-import context from '../ContextMenu';
+import context from '../menus/ContextMenu';
 export default {
     name:'Userpage',
     components:{

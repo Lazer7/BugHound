@@ -7,8 +7,8 @@
 </template>
 
 <script>
-  import navbar from './components/Navbar.vue';
-  import usernav from './components/UserNavbar.vue';
+  import navbar from './components/navbars/Navbar.vue';
+  import usernav from './components/navbars/UserNavbar.vue';
   export default {
     name: 'App',
     components:{

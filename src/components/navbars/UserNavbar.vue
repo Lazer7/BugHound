@@ -3,7 +3,7 @@
     <div class="navbar-brand">
       <a class="navbar-item">
         <figure class="logo">
-          <img src="../assets/logoname.png"/>
+          <img src="../../assets/logoname.png"/>
         </figure>
       </a>
 

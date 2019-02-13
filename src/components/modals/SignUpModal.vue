@@ -114,7 +114,7 @@ export default {
         lastname:this.lastname,
         userlevel:this.userlevel
       }
-      axios.post(this.$store.getters['routes/addEmployee'],user).then((result)=>{
+      axios.post(this.$store.getters['routes/employeeRoute'],user).then((result)=>{
           self.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});
           self.toUserPage();
           self.close();
