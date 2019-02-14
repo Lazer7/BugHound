@@ -83,6 +83,9 @@ export default {
         font-size: 15px;
         color: white;
     }
+    a:hover{
+        color:#333333 !important;
+    }
     a{
         color:white !important;
     }

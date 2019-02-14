@@ -9,7 +9,9 @@ import 'buefy/dist/buefy.css';
 import 'bulma/css/bulma.css';
 import 'bulma-extensions';
 import Icon from 'vue-awesome/components/Icon';
-
+import VueDragDrop from 'vue-drag-drop';
+ 
+Vue.use(VueDragDrop);
 Vue.component('v-icon', Icon);
 Vue.use(Buefy,{
   defaultIconPack: 'fa'

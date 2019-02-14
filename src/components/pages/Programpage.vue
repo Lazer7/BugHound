@@ -56,7 +56,6 @@ export default {
         getValue(){
             var self = this;
             axios.get(this.$store.getters['routes/getProgram']).then((result)=>{
-                console.log(result.data);
                 self.data = result.data.programs;
             })
         },

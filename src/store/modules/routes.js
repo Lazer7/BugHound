@@ -4,6 +4,7 @@ const state = {
   APIAddress : "http://localhost:2017/",
   employee: "employee/",
   program: "program/",
+  employeeprogram:"employeeprogram",
   area:"area/",
   bugs:"bug/",
   getBugs: "bug/all/",
@@ -39,6 +40,9 @@ const getters={
   },
   bugRoute:(state)=>{
     return state.APIAddress + state.area;
+  },
+  EmployeeProgramRoute:(state)=>{
+    return state.APIAddress + state.employeeprogram;
   }
 };
 const actions={};

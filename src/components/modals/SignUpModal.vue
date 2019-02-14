@@ -76,9 +76,11 @@ export default {
   computed:{
     validate(){
       if(this.username==="") return true;
+      if(this.username.length<5) return true;
       if(this.password==="") return true;
       if(this.password2==="") return true;
       if(this.password2 !== this.password) return true;
+      if(this.password.length<5) return true;
       if(this.firstname==="")return true;
       if(this.lastname==="")return true;
       if(this.userlevel===undefined)return true;
