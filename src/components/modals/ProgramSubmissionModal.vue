@@ -9,15 +9,15 @@
       </header>
       <section class="modal-card-body">
        <div class="has-text-left">
-            <b-field label="Project Name">
+            <b-field label="Program Name">
                 <b-input 
                     v-model="name"
-                    placeholder="Project name"
+                    placeholder="Program name"
                     maxlength="32"/>
             </b-field>
             <b-field label="Date Created">
                 <b-datepicker
-                    v-model="date_started"
+                    v-model="datestarted"
                     placeholder="Click to select..."/>
             </b-field>
             <b-field label="Release">
@@ -50,7 +50,7 @@ export default {
     return{
       type:"",
       name:"",
-      date_started:undefined,
+      datestarted:undefined,
       release:"",
       version:""
     }
@@ -58,12 +58,12 @@ export default {
   computed:{
     validate(){
       if(this.name==="" ) return true;
-      if(this.date_started===undefined) return true;
+      if(this.datestarted===undefined) return true;
       if(this.release==="" )  return true;
       if(this.version === "" ) return true;
       if(this.data !== undefined){
           if(this.name===this.data.name 
-          && this.date_started===this.data.date_started
+          && this.datestarted===this.data.datestarted
           && this.release===this.data.release
           && this.version === this.data.version) return true;
       }
@@ -75,7 +75,7 @@ export default {
       else {
         this.type="Edit"
         this.name = this.data.name;
-        this.date_started = this.data.date_started;
+        this.datestarted = this.data.datestarted;
         this.release = this.data.release;
         this.version = this.data.version;
       }
@@ -88,7 +88,7 @@ export default {
         var self = this;
         var body = {
             name: this.name,
-            date_started: this.date_started,
+            datestarted: this.datestarted,
             release: this.release,
             version:this.version
         };
