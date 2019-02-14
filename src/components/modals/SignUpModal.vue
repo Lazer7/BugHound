@@ -21,7 +21,7 @@
                     placeholder="Last Name"
                     maxlength="32"/>
             </b-field>
-            <b-field label="Username">
+            <b-field label="Username" :type="validUsername" :message="validUserMessage">
                 <b-input v-model="username" 
                       value="" 
                       placeholder="Username"
@@ -99,6 +99,14 @@ export default {
     mismatchMessage(){
       if(this.password2 !== this.password) return 'Passwords do not match';
       else{ return ""}
+    },
+    validUsername(){
+      if(this.username.length<5&&this.username.length!==0) return 'is-danger'
+      else{return ""}
+    },
+    validUserMessage(){
+      if(this.username.length<5&&this.username.length!==0) return 'Username cannot be shorter than 5 characters';
+      else{return ""}
     }
   },
   methods:{

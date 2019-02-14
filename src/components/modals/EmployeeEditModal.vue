@@ -21,13 +21,13 @@
                     placeholder="Last Name"
                     maxlength="32"/>
             </b-field>
-            <b-field label="Username">
+            <b-field label="Username" :type="validUsername" :message="validUserMessage">
                 <b-input v-model="username" 
                       value="" 
                       placeholder="Username"
                       maxlength="32"/>
             </b-field>
-            <b-field label="Password">
+            <b-field label="Password" :type="validPassword" :message="validMessage">
                 <b-input type="password"
                     v-model="password"
                     placeholder="Password"/>
@@ -77,9 +77,11 @@ export default {
   computed:{
     validate(){
       if(this.username==="") return true;
+      if(this.username.length<5) return true;
       if(this.password==="") return true;
       if(this.password2==="") return true;
       if(this.password2 !== this.password) return true;
+      if(this.password.length<5) return true;
       if(this.firstname==="")return true;
       if(this.lastname==="")return true;
       if(this.userlevel===undefined)return true;
@@ -92,6 +94,22 @@ export default {
     mismatchMessage(){
       if(this.password2 !== this.password) return 'Passwords do not match';
       else{ return ""}
+    },
+        validPassword(){
+      if(this.password.length<5&&this.password.length!==0)return 'password is-danger';
+      else return 'password';
+    },
+    validMessage(){
+      if(this.password.length<5&&this.password.length!==0)return 'Password cannot be shorter than 5 characters';
+      else return "";
+    },
+    validUsername(){
+      if(this.username.length<5&&this.username.length!==0) return 'is-danger'
+      else{return ""}
+    },
+    validUserMessage(){
+      if(this.username.length<5&&this.username.length!==0) return 'Username cannot be shorter than 5 characters';
+      else{return ""}
     }
   },
   mounted(){
