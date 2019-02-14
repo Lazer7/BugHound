@@ -45,10 +45,11 @@ export default {
     }
   },
   mounted(){
+     console.log(this.data);
       if(this.data===undefined){ this.type="Add"}
       else {
         this.type="Edit"
-        this.name = this.data;
+        this.name = this.data.name;
       }
   },
   methods:{

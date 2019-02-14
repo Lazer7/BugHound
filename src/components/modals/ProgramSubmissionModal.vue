@@ -13,7 +13,8 @@
                 <b-input 
                     v-model="name"
                     placeholder="Program name"
-                    maxlength="32"/>
+                    maxlength="32"
+                    :disabled="type==='Edit'"/>
             </b-field>
             <b-field label="Date Created">
                 <b-datepicker
@@ -75,7 +76,7 @@ export default {
       else {
         this.type="Edit"
         this.name = this.data.name;
-        this.datestarted = this.data.datestarted;
+        this.datestarted = new Date(this.data.datestarted);
         this.release = this.data.release;
         this.version = this.data.version;
       }

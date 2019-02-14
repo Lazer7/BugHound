@@ -17,12 +17,12 @@
             <tbody>
                 <tr v-for="(value,index) in data" :key="index">
                     <th>{{value.name}}</th>
-                    <th>{{value.date_started}}</th>
+                    <th>{{getDate(new Date(value.datestarted))}}</th>
                     <th>{{value.release}}</th>
                     <th>{{value.version}}</th>
                     <th>
                         <a class="button" @click="toggleSubmission(value)"> <v-icon name="edit"/><label>Edit</label></a> 
-                        <a class="button"><v-icon name="trash"/><label>Delete</label></a>
+                        <a class="button" @click="toggleDelete(value)"><v-icon name="trash"/><label>Delete</label></a>
                     </th>                    
                 </tr>
             </tbody>
@@ -69,6 +69,33 @@ export default {
             this.getValue();
             this.modal = false;
             this.$forceUpdate();
+        },
+        getDate(date){
+            var monthNames = [
+                "January", "February", "March",
+                "April", "May", "June", "July",
+                "August", "September", "October",
+                "November", "December"
+            ];
+            return monthNames[date.getMonth()]+' '+date.getDate()+','+date.getFullYear();
+
+        },
+        toggleDelete(value){
+        this.$dialog.confirm({
+            title: "Deleting Program",
+            message:
+            "Are you sure you want to <b>delete</b> this program? This action cannot be undone.",
+            confirmText: "Delete program",
+            type: "is-danger",
+            hasIcon: true,
+            onConfirm: () => {
+            axios
+                .delete(this.$store.getters["routes/programRoute"] + value.name)
+                .then(() => {
+                this.getValue();
+                });
+            }
+        });
         }
     }
 }

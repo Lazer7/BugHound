@@ -6,7 +6,7 @@
         <a class="button" @click="toggleSubmission()">
           <v-icon name="plus-square"/>
           <label>
-            <strong>Add an Area</strong>
+            <strong>Add Area</strong>
           </label>
         </a>
         <br>
