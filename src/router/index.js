@@ -10,6 +10,7 @@ import JoinProgramPage from '@/components/pages/JoinProgramPage';
 import CompanyBugList from '@/components/pages/CompanyBugList';
 import BugSubmission from '@/components/pages/BugSubmissionPage';
 import Area from '@/components/pages/AreaPages';
+import SingleBugPage from '@/components/pages/SingleBugPage';
 import store from '../store/index';
 Vue.use(Router);
 Vue.use(store);
@@ -66,6 +67,12 @@ export default new Router({
           path:'/Main/Area',
           name:'Area',
           component:Area
+        },
+        {
+          path:'/Main/Bug',
+          name:'SingleBug',
+          component:SingleBugPage,
+          props:true
         }
       ],
       beforeEnter:(to,from,next)=>{

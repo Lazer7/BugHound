@@ -1,5 +1,5 @@
 <template>
-    <article class="media">
+    <article class="media" @dblclick="toSingleBugPage">
         <figure class="media-left">
             <div> <strong>Severity</strong> </div>
             <p class="image is-64x64">
@@ -8,17 +8,16 @@
         </figure>
         <div class="media-content">
             <div class="content">
-            
-                <strong>Project:</strong> {{data.programid}} <br>
+                <strong>Program:</strong> {{data.programid}} <br>
                 <strong>Date Reported:</strong> {{getDate(new Date(data.datereported))}} <br>
                 <strong>Reported By:</strong> {{(getEmployee(data.reportedby))}} <br>
                 <strong>Severity: </strong>{{SeverityData[data.severity]}} <strong> · </strong>
                 <strong>Report Type:</strong>{{ReportData[data.reporttype]}} <strong> · </strong> 
-                 <strong>Reproducible: </strong> {{data.reproducible.data[0]===1? "Yes" : "No"}}<br>
-                <strong>Problem Description</strong><br>
-                {{data.problemdescription}}<br>
+                <strong>Reproducible: </strong> {{data.reproducible.data[0]===1? "Yes" : "No"}}<br>
                 <strong>Problem Summary</strong><br>
                 {{data.problemsummary}}<br>
+                <strong>Problem Description</strong><br>
+                {{data.problemdescription}}<br>
                 <strong>Suggested Fix</strong><br>{{data.suggestedfix}}
             
             </div>
@@ -69,6 +68,9 @@ export default {
             ];
             return monthNames[date.getMonth()]+' '+date.getDate()+','+date.getFullYear();
         },
+        toSingleBugPage(){
+            this.$router.push({name:'SingleBug',params:{data:this.data,employeeList:this.employeeList}});
+        }
     }
 }
 </script>

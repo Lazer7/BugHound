@@ -129,9 +129,9 @@
                 <b-select placeholder="Status" v-model="status">
                   <option
                     v-for="data in StatusData"
-                    :value="data"
-                    :key="data">
-                      {{ data }}
+                    :value="data.key"
+                    :key="data.key">
+                      {{ data.value }}
                   </option>
                 </b-select>
               </b-field>
@@ -178,7 +178,7 @@
           <div class="columns">
             <div class="column is-3">
               <b-field label="Resolved By">
-                <b-select placeholder="Resolved By" v-model="status">
+                <b-select placeholder="Resolved By" v-model="resolved_by">
                   <option
                     v-for="(data,index) in EmployeeList"
                     :value="data"
@@ -200,7 +200,7 @@
             </div>
             <div class="column is-3">
               <b-field label="Tested By">
-                <b-select placeholder="Tested By" v-model="resolution">
+                <b-select placeholder="Tested By" v-model="resolution_tested_by">
                   <option
                     v-for="(data,index) in EmployeeList"
                     :value="data"
@@ -221,6 +221,11 @@
               </b-field>
             </div>
           </div>
+          <b-field label="Treat as deferred?">
+            <b-checkbox v-model="deferred">
+                {{deferred? "Yes" : "No"}}
+            </b-checkbox>
+          </b-field>  
           <hr/>
           <button class="button" :disabled="validate" @click="submit">Submit</button>
           <button class="button" @click="toDashBoard">Cancel</button>
@@ -252,7 +257,7 @@ export default {
             ],
             EmployeeList:[],
             AreaData:[],
-            StatusData:["Open","Close"],
+            StatusData:[{key:1,value:"Open"},{key:2,value:"Close"}],
             PriorityData:[1,2,3,4,5],
             ResolutionData:[
               {key:1,value:"Pending"},
@@ -287,7 +292,7 @@ export default {
             date_resolved:undefined,
             resolution_tested_by:undefined,
             resolution_tested_date:undefined,
-            deffered:undefined
+            deferred:undefined
         }
     },
     mounted(){
@@ -359,7 +364,7 @@ export default {
           reportedby:this.reported_by.id,
           datereported:this.date_reported,
           reproducible:this.reproducible,
-          area:this.area,
+          area:this.area.name,
           assignedto:assignedTo,
           comments:this.comments,
           priority:this.priority,
@@ -370,7 +375,7 @@ export default {
           dateresolved:this.date_resolved,
           resolutiontestedby:resolutiontestedby,
           resolutiontesteddate:this.resolution_tested_date,
-          deffered:this.deffered
+          deferred:this.deferred
         };
         axios.post(this.$store.getters['routes/bugRoute'],data).then((result)=>{
           console.log("SUCCESS");
