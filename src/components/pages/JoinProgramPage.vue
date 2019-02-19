@@ -97,16 +97,19 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
   .box{
     margin: 10px 10px 10px 10px;
     background: #333333;
       color: #FFFFFF;
   }
-    .x{
-        margin-bottom: 3%;
-    }
-  .drop > .title, .drop>.subtitle{
+  .x{
+    margin-bottom: 3%;
+  }
+  .title{
+    color:black;
+  }
+  .drop > .title,.box, .drop>.subtitle{
       color:white;
   }
 </style>

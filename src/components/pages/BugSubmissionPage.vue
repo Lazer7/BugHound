@@ -8,10 +8,11 @@
               <b-field label="Program">
                 <b-select placeholder="Select Program" v-model="program">
                   <option
-                    v-for="level in ProgramData"
+                    v-for="(level,index) in ProgramData"
                     :value="level"
-                    :key="level">
-                      {{ level }}
+                    :key="index"
+                    >
+                      {{ level.name }}
                   </option>
                 </b-select>
               </b-field>
@@ -21,7 +22,7 @@
                 <b-select placeholder="Select Report Type" v-model="report_type">
                   <option
                     v-for="data in ReportData"
-                    :value="data.value"
+                    :value="data.key"
                     :key="data.key">
                       {{ data.value }}
                   </option>
@@ -33,7 +34,7 @@
                 <b-select placeholder="Select Severity" v-model="severity">
                   <option
                     v-for="data in SeverityData"
-                    :value="data.value"
+                    :value="data.key"
                     :key="data.key">
                       {{ data.value }}
                   </option>
@@ -66,10 +67,10 @@
               <b-field label="Reported By">
                 <b-select placeholder="Reported By" v-model="reported_by">
                   <option
-                    v-for="data in EmployeeList"
-                    :value="data.id"
-                    :key="data.name">
-                      {{ data.name }}
+                    v-for="(data,index) in EmployeeData"
+                    :value="data"
+                    :key="index">
+                      {{ data.firstname }} {{data.lastname}}
                   </option>
                 </b-select>
               </b-field>
@@ -95,10 +96,10 @@
               <b-field label="Functional Area">
                 <b-select placeholder="Functional Area" v-model="area">
                   <option
-                    v-for="data in AreaData"
+                    v-for="(data,index) in AreaData"
                     :value="data"
-                    :key="data">
-                      {{ data }}
+                    :key="index">
+                      {{ data.name }}
                   </option>
                 </b-select>
               </b-field>
@@ -107,10 +108,10 @@
               <b-field label="Assigned To">
                 <b-select placeholder="Assigned To" v-model="assigned_to">
                   <option
-                    v-for="data in EmployeeList"
+                    v-for="(data,index) in EmployeeList"
                     :value="data"
-                    :key="data">
-                      {{ data }}
+                    :key="index">
+                      {{ data.firstname }} {{data.lastname}}
                   </option>
                 </b-select>
               </b-field>
@@ -152,7 +153,7 @@
                 <b-select placeholder="Resolution" v-model="resolution">
                   <option
                     v-for="data in ResolutionData"
-                    :value="data.value"
+                    :value="data.key"
                     :key="data.key">
                       {{ data.value }}
                   </option>
@@ -179,10 +180,10 @@
               <b-field label="Resolved By">
                 <b-select placeholder="Resolved By" v-model="status">
                   <option
-                    v-for="data in EmployeeList"
+                    v-for="(data,index) in EmployeeList"
                     :value="data"
-                    :key="data">
-                      {{ data }}
+                    :key="index">
+                      {{ data.firstname }} {{data.lastname}}
                   </option>
                 </b-select>
               </b-field>
@@ -201,10 +202,10 @@
               <b-field label="Tested By">
                 <b-select placeholder="Tested By" v-model="resolution">
                   <option
-                    v-for="data in EmployeeList"
-                    :value="data.value"
-                    :key="data.key">
-                      {{ data.value }}
+                    v-for="(data,index) in EmployeeList"
+                    :value="data"
+                    :key="index">
+                      {{ data.firstname }} {{data.lastname}}
                   </option>
                 </b-select>
               </b-field>
@@ -221,18 +222,21 @@
             </div>
           </div>
           <hr/>
-          <button class="button" :disabled="validate">Submit</button>
+          <button class="button" :disabled="validate" @click="submit">Submit</button>
           <button class="button" @click="toDashBoard">Cancel</button>
         </div>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
     name:'BugReport',
     data(){
         return{
             ProgramData:[],
+            EmployeeData:[],
+            EmployeeProgram:[],
             ReportData:[
                 {key:1,value:"Coding Error"},
                 {key:2,value:"Design Issue"},
@@ -286,6 +290,9 @@ export default {
             deffered:undefined
         }
     },
+    mounted(){
+      this.getValues();
+    },
     computed:{
       validate(){
         if(this.program===undefined) return true;
@@ -299,7 +306,78 @@ export default {
         if(this.reproducible===undefined) return true;
       }
     },
+    watch:{
+      program(){
+        this.filteredItems();
+      }
+    },
     methods:{
+      filteredItems() {
+        if(this.program!==undefined){
+          var EmployeeList =[];
+          var EmployeesOfProgram = this.EmployeeProgram.filter(program=>{
+              return program.programid=== this.program.name;
+          });
+          if(EmployeesOfProgram!==undefined || EmployeesOfProgram!==[]){
+              for(var i=0; i<EmployeesOfProgram.length; i++){
+                  var result = this.EmployeeData.find(employee=>{
+                      return employee.id === EmployeesOfProgram[i].employeeid;
+                  });
+                  if(result !==undefined) EmployeeList.push(result);
+              }
+          }
+          this.EmployeeList=EmployeeList;
+        }
+      },
+      getValues(){
+        var self = this;
+        axios.get(this.$store.getters['routes/getProgram']).then((result)=>{
+            self.ProgramData = result.data.programs;
+        })
+        axios.get(this.$store.getters['routes/EmployeeProgramRoute']).then((result)=>{
+            self.EmployeeProgram = result.data.programs;
+        })
+        axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
+            self.EmployeeData = result.data.employees;
+        });
+        axios.get(this.$store.getters["routes/getArea"]).then(result=>{
+          self.AreaData = result.data.areas;
+        })
+      },
+      submit(){
+        var self = this;
+        var resolveby = this.resolved_by !== undefined?this.resolved_by.id : undefined;
+        var resolutiontestedby = this.resolution_tested_by!==undefined?this.resolution_tested_by.id :undefined;
+        var assignedTo = this.assigned_to !==undefined ?this.assigned_to.id: undefined;
+        var data = {
+          programid:this.program.name,
+          reporttype:this.report_type,
+          severity:this.severity,
+          problemsummary:this.problem_summary,
+          problemdescription:this.problem_description,
+          suggestedfix:this.suggested_fix,
+          reportedby:this.reported_by.id,
+          datereported:this.date_reported,
+          reproducible:this.reproducible,
+          area:this.area,
+          assignedto:assignedTo,
+          comments:this.comments,
+          priority:this.priority,
+          status:this.status,
+          resolution:this.resolution,
+          resolutionversion:this.resolution_version,
+          resolvedby:resolveby,
+          dateresolved:this.date_resolved,
+          resolutiontestedby:resolutiontestedby,
+          resolutiontesteddate:this.resolution_tested_date,
+          deffered:this.deffered
+        };
+        axios.post(this.$store.getters['routes/bugRoute'],data).then((result)=>{
+          console.log("SUCCESS");
+          self.$router.push('/Main/DashBoard');
+        })
+        console.log(data)
+      },
       toDashBoard(){
         this.$store.dispatch('userInfo/setCurrentPage',0);
         this.$router.push('/Main/Dashboard');
@@ -311,5 +389,8 @@ export default {
 <style scoped>
 hr{
   background: #2d2d2d;
+}
+.notification{
+  border-radius: 10px;
 }
 </style>

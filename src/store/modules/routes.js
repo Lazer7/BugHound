@@ -39,7 +39,7 @@ const getters={
     return state.APIAddress + state.area;
   },
   bugRoute:(state)=>{
-    return state.APIAddress + state.area;
+    return state.APIAddress + state.bugs;
   },
   EmployeeProgramRoute:(state)=>{
     return state.APIAddress + state.employeeprogram;
