@@ -46,9 +46,6 @@ export default {
             ]
         }
     },
-    mounted(){
-        console.log(this.data)
-    },
     methods:{
         getImage(id){
             if(id===1) return require('../../assets/danger.png');

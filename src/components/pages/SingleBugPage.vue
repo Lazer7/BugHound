@@ -14,8 +14,8 @@
                 <p><strong>Program:</strong> {{data.programid}} <p>
                 <p><strong>Date Reported:</strong> {{getDate(new Date(data.datereported))}} </p>
                 <p><strong>Reported By:</strong> {{(getEmployee(data.reportedby))}} </p>
-                <p><strong>Severity: </strong>{{SeverityData[data.severity]}} <strong> · </strong>
-                <p><strong>Report Type:</strong>{{ReportData[data.reporttype]}} <strong> · </strong> 
+                <p><strong>Severity: </strong>{{SeverityData[data.severity-1]}} </p>
+                <p><strong>Report Type:</strong>{{ReportData[data.reporttype-1]}} </p>
                 <p><strong>Reproducible: </strong> {{data.reproducible.data[0]===1? "Yes" : "No"}}</p>
                 <p><strong>Problem Summary</strong><br>
                 {{data.problemsummary}}</p>
@@ -49,11 +49,16 @@
             </div>
         </div>
     </article>
+    <div class="has-text-right">
+        <a class="button" @click="toggleEdit()"> <v-icon name="edit"/><label>Edit</label></a> 
+        <a class="button" @click="toggleDelete()"><v-icon name="trash"/><label>Delete</label></a>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name:"BugBox",
     props:['data','employeeList'],
@@ -111,6 +116,29 @@ export default {
             ];
             return monthNames[date.getMonth()]+' '+date.getDate()+','+date.getFullYear();
         },
+        toggleEdit(){
+            console.log(this.data);
+            this.$store.dispatch('userInfo/setCurrentPage',3);
+            this.$router.push({name:"BugSubmission",params:{data:this.data}});
+        },
+        toggleDelete(){
+            this.$dialog.confirm({
+                title: "Deleting Bug",
+                message:
+                "Are you sure you want to <b>delete</b> this wonderful bug? This action cannot be undone.",
+                confirmText: "Delete Bug",
+                type: "is-danger",
+                hasIcon: true,
+                onConfirm: () => {
+                axios
+                    .delete(this.$store.getters["routes/bugRoute"] + this.data.bugid)
+                    .then(() => {
+                    this.$store.dispatch('userInfo/setCurrentPage',0);
+                    this.$router.push('/Main/DashBoard');
+                    })
+                }
+            });
+        }
 
     }
 }

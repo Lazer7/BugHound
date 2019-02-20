@@ -223,7 +223,8 @@
           </div>
           <b-field label="Treat as deferred?">
             <b-checkbox v-model="deferred">
-                {{deferred? "Yes" : "No"}}
+                <div v-if="deferred!==undefined">{{deferred? "Yes" : "No"}}</div>
+                <div v-if="deferred===undefined">Undetermined</div>
             </b-checkbox>
           </b-field>  
           <hr/>
@@ -237,6 +238,7 @@
 import axios from 'axios';
 export default {
     name:'BugReport',
+    props:['data'],
     data(){
         return{
             ProgramData:[],
@@ -292,11 +294,15 @@ export default {
             date_resolved:undefined,
             resolution_tested_by:undefined,
             resolution_tested_date:undefined,
-            deferred:undefined
+            deferred:undefined,
+            type:"Add",
+            bugid:0
         }
     },
     mounted(){
+      this.type = this.data===undefined? "Add":"Edit";
       this.getValues();
+      
     },
     computed:{
       validate(){
@@ -317,6 +323,16 @@ export default {
       }
     },
     methods:{
+      findProgram(value){
+        return this.ProgramData.find(program=>{
+          return program.name ===value;
+        })
+      },
+      findEmployee(value){
+        return this.EmployeeData.find(employee=>{
+          return employee.id === value;
+        })
+      },
       filteredItems() {
         if(this.program!==undefined){
           var EmployeeList =[];
@@ -338,16 +354,43 @@ export default {
         var self = this;
         axios.get(this.$store.getters['routes/getProgram']).then((result)=>{
             self.ProgramData = result.data.programs;
+            axios.get(this.$store.getters['routes/EmployeeProgramRoute']).then((result)=>{
+              self.EmployeeProgram = result.data.programs;
+              axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
+                self.EmployeeData = result.data.employees;
+                axios.get(this.$store.getters["routes/getArea"]).then(result=>{
+                  self.AreaData = result.data.areas;
+                    this.filteredItems();
+                    if(this.type === "Edit"){
+                      this.program=this.findProgram(this.data.programid);
+                      this.report_type=this.data.reporttype;
+                      this.severity=this.data.severity;
+                      this.problem_summary=this.data.problemsummary;
+                      this.problem_description=this.data.problemdescription;
+                      this.suggested_fix=this.data.suggestedfix;
+                      this.reported_by=this.findEmployee(this.data.reportedby);
+                      this.date_reported=new Date(this.data.datereported);
+                      this.reproducible=this.data.reproducible.data[0]===1? true:false;
+                      this.area={name:this.data.area};
+                      this.assigned_to=this.findEmployee(this.data.assignedto);
+                      this.comments=this.data.comments;
+                      this.priority=this.data.priority;
+                      this.status=this.data.status;
+                      this.resolution=this.data.resolution;
+                      this.resolution_version=this.data.resolutionversion;
+                      this.resolved_by=this.findEmployee(this.data.resolvedby);
+                      this.date_resolved=new Date(this.data.dateresolved);
+                      this.resolution_tested_by=this.findEmployee(this.data.resolutiontestedby);
+                      this.resolution_tested_date=new Date(this.data.resolutiontesteddate);
+                      this.deferred=this.data.deferred.data[0]===1?true:false;
+                    }
+                })
+              });
+            })
         })
-        axios.get(this.$store.getters['routes/EmployeeProgramRoute']).then((result)=>{
-            self.EmployeeProgram = result.data.programs;
-        })
-        axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
-            self.EmployeeData = result.data.employees;
-        });
-        axios.get(this.$store.getters["routes/getArea"]).then(result=>{
-          self.AreaData = result.data.areas;
-        })
+
+        
+        
       },
       submit(){
         var self = this;
@@ -377,11 +420,16 @@ export default {
           resolutiontesteddate:this.resolution_tested_date,
           deferred:this.deferred
         };
-        axios.post(this.$store.getters['routes/bugRoute'],data).then((result)=>{
-          console.log("SUCCESS");
-          self.$router.push('/Main/DashBoard');
-        })
-        console.log(data)
+        if(this.type==="Add"){
+          axios.post(this.$store.getters['routes/bugRoute'],data).then((result)=>{
+            self.toDashBoard();
+          });
+        } else {
+          data['id'] = this.data.bugid;
+          axios.put(this.$store.getters['routes/bugRoute'],data).then((result)=>{
+            self.toDashBoard();
+          })
+        }
       },
       toDashBoard(){
         this.$store.dispatch('userInfo/setCurrentPage',0);

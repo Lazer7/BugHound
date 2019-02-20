@@ -61,7 +61,8 @@ export default new Router({
         {
           path:'/Main/BugSubmission',
           name:'BugSubmission',
-          component:BugSubmission
+          component:BugSubmission,
+          props:true
         },
         {
           path:'/Main/Area',
