@@ -9,6 +9,7 @@
       </header>
       <section class="modal-card-body">
         <div class="has-text-left">
+          <div v-if="error" class="danger">{{warning}}</div>
             <b-field label="Username">
                 <b-input v-model="username" placeholder="Username"></b-input>
             </b-field>
@@ -22,7 +23,7 @@
       </section>
       <footer class="modal-card-foot">
         <button class="button" @click="login" :disabled="isEmpty">Login</button>
-        <button class="button" @click="close">Cancel</button>
+        <button class="button" @click="close">Cancel</button> 
       </footer>
     </div>
   </div>
@@ -34,7 +35,9 @@ export default {
   data(){
     return{
       username:"",
-      password:""
+      password:"",
+      warning:"",
+      error:false
     }
   },
   computed:{
@@ -49,6 +52,7 @@ export default {
       this.$emit('toggle', false);
     },
     login(){
+      var self= this;
       var user ={
         username:this.username,
         password:this.password
@@ -60,8 +64,9 @@ export default {
           this.toUserPage();
           this.close();
       })
-      .catch(() => {
-        
+      .catch((err) => {
+        self.error=true;
+        self.warning="Incorrect Username/Password";
       });
     },
     toUserPage(){
@@ -85,5 +90,7 @@ export default {
     background:white;
     color:#2d2d2d;
   }
-
+  .danger{
+    color:red;
+  }
 </style>

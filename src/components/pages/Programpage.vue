@@ -44,7 +44,7 @@ export default {
     },
     data(){
         return{
-            data:[{name:"Lazer",date_started:new Date(), release:"bleh", version:"1.0.0"}],
+            data:[],
             modal:false,
             editData:{}
         }

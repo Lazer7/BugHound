@@ -44,7 +44,6 @@ export default {
       this.$router.push('/');
       Swal.fire({
         background:"#2d2d2d",
-        color:"#ffffff",
         title:`<span style="color:#FFFFFF">Logged Out`,
         type:"success"
       })
