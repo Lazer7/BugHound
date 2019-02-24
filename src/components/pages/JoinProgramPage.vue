@@ -20,7 +20,7 @@
           <drop class="drop" @drop="handleDrop(program, ...arguments)">
             <div class="title">{{program.name}}</div>
             <div class="subtitle">
-              <p v-for="(employee,index) in filteredItems(program.name)" :key="index">{{employee.firstname}} {{employee.lastname}}</p>
+              <p v-for="(employee,index) in filteredItems(program.id)" :key="index">{{employee.firstname}} {{employee.lastname}}</p>
             </div>
           </drop>
         </div>
@@ -45,10 +45,10 @@ export default {
     this.getValues();
   },
   methods: {
-    filteredItems(programName) {
+    filteredItems(programId) {
         var EmployeeList =[];
         var EmployeesOfProgram = this.programEmployee.filter(program=>{
-            return program.programid=== programName;
+            return program.programid === programId;
         });
         if(EmployeesOfProgram!==undefined || EmployeesOfProgram!==[]){
             for(var i=0; i<EmployeesOfProgram.length; i++){
@@ -77,7 +77,7 @@ export default {
         if(!ProgramEmployeeList.includes(data.item)){
             var data={
                 employeeid: data.item.id,
-                programid: toList.name
+                programid: toList.id
             }
             var self=this;
             axios.post(this.$store.getters['routes/EmployeeProgramRoute'],data).then((result)=>{
