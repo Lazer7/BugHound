@@ -24,7 +24,7 @@
           </b-field>
         </div>
       </div>
-      <button class="button" @click="advance=true">Advance Search</button>
+      <button class="button" @click="advance=true">Advanced Search</button>
     </div>
     <div class="container">
       <div class="box" v-for="(bug,index) in currentBuglist" :key="index">

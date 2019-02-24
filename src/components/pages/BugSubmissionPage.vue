@@ -399,7 +399,7 @@ export default {
         var assignedTo = this.assigned_to !==undefined ?this.assigned_to.id: undefined;
         var areaName = this.area !==undefined? this.area.name: undefined;
         var data = {
-          programid:this.program.name,
+          programid:this.program.id,
           reporttype:this.report_type,
           severity:this.severity,
           problemsummary:this.problem_summary,
