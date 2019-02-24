@@ -397,6 +397,7 @@ export default {
         var resolveby = this.resolved_by !== undefined?this.resolved_by.id : undefined;
         var resolutiontestedby = this.resolution_tested_by!==undefined?this.resolution_tested_by.id :undefined;
         var assignedTo = this.assigned_to !==undefined ?this.assigned_to.id: undefined;
+        var areaName = this.area !==undefined? this.area.name: undefined;
         var data = {
           programid:this.program.name,
           reporttype:this.report_type,
@@ -407,7 +408,7 @@ export default {
           reportedby:this.reported_by.id,
           datereported:this.date_reported,
           reproducible:this.reproducible,
-          area:this.area.name,
+          area: areaName,
           assignedto:assignedTo,
           comments:this.comments,
           priority:this.priority,

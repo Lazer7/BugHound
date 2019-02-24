@@ -28,6 +28,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
   name:'Login',
   data(){
@@ -48,9 +49,20 @@ export default {
       this.$emit('toggle', false);
     },
     login(){
-      this.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});
-      this.toUserPage();
-      this.close();
+      var user ={
+        username:this.username,
+        password:this.password
+      };
+      axios.post(this.$store.getters['routes/login'] ,user)
+      .then((result)=>{
+          this.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});
+          this.$store.dispatch('userInfo/setBearerToken', result.data.token);
+          this.toUserPage();
+          this.close();
+      })
+      .catch(() => {
+        
+      });
     },
     toUserPage(){
       this.$router.push('/Main');

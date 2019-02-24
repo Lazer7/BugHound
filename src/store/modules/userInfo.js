@@ -2,7 +2,8 @@ import { stat } from "fs";
 
 const state = {
   User : {},
-  CurrentPage: ['is-active']
+  CurrentPage: ['is-active'],
+  BearerToken: ""
 };
 const getters={
   User:(state)=>{
@@ -24,6 +25,9 @@ const actions={
   },
   setCurrentPage:({state,commit},value)=>{
     commit('setCurrentPage',value);
+  },
+  setBearerToken:({state, commit}, value) => {
+    commit('setBearerToken', value);
   }
 };
 const mutations={
@@ -33,6 +37,9 @@ const mutations={
   setCurrentPage:(state,payload)=>{
     state.CurrentPage = [];
     state.CurrentPage[payload]='is-active';
+  },
+  setBearerToken:(state, payload) => {
+    state.BearerToken = payload;
   }
 };
   

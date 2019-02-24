@@ -1,7 +1,8 @@
 import { stat } from "fs";
 
 const state = {
-  APIAddress : "http://localhost:2017/",
+  root: "http://localhost:2017/",
+  APIAddress : "http://localhost:2017/api/",
   employee: "employee/",
   program: "program/",
   employeeprogram:"employeeprogram",
@@ -11,7 +12,9 @@ const state = {
   getArea: "area/all/",
   getProgram: "program/all/",
   getEmployees:"employee/all/",
-  query:""
+  query:"",
+  register: "authenticate/register/",
+  login: "authenticate/login/"
 };
 const getters={
   APIAddress:(state)=>{
@@ -43,6 +46,12 @@ const getters={
   },
   EmployeeProgramRoute:(state)=>{
     return state.APIAddress + state.employeeprogram;
+  },
+  register:(state) => {
+    return state.root + state.register;
+  },
+  login:(state) => {
+    return state.root + state.login;
   }
 };
 const actions={};

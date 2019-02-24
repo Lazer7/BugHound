@@ -124,12 +124,16 @@ export default {
         lastname:this.lastname,
         userlevel:this.userlevel
       }
-      axios.post(this.$store.getters['routes/employeeRoute'],user).then((result)=>{
+      axios.post(this.$store.getters['routes/register'] ,user)
+      .then((result)=>{
           self.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});
+          self.$store.dispatch('userInfo/setBearerToken', result.token);
           self.toUserPage();
           self.close();
       })
-      
+      .catch(() => {
+
+      });
     },
     toUserPage(){
       this.$router.push('/Main');
