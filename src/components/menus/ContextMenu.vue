@@ -1,7 +1,7 @@
 <template>
     <aside class="menu has-text-left">
         <p class="menu-label">
-            General
+            Welcome {{this.$store.getters['userInfo/User'].firstname}} {{this.$store.getters['userInfo/User'].lastname}}
         </p>
         <ul class="menu-list">
             <li><a :class="getTab(0)" @click=" toDashBoard(0)">Dashboard</a></li>
