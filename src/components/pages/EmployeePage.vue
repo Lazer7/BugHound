@@ -70,7 +70,6 @@ export default {
     getValue() {
       var self = this;
       axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
-        console.log(result.data.employees);
         self.data = result.data.employees;
       });
     },

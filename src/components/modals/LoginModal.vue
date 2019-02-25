@@ -9,7 +9,6 @@
       </header>
       <section class="modal-card-body">
         <div class="has-text-left">
-          <div v-if="error" class="danger">{{warning}}</div>
             <b-field label="Username">
                 <b-input v-model="username" placeholder="Username"></b-input>
             </b-field>
@@ -19,6 +18,7 @@
                     placeholder="Password">
                 </b-input>
             </b-field>
+            <div v-if="error" class="danger">{{warning}}</div>
         </div>
       </section>
       <footer class="modal-card-foot">

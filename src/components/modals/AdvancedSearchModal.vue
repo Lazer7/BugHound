@@ -15,7 +15,7 @@
                 v-for="(level,index) in ProgramData"
                 :value="level"
                 :key="index"
-              >{{ level.name }}</option>
+              >{{ level.name }} V:{{level.version}} R:{{level.release}}</option>
             </b-select>
           </b-field>
 

@@ -49,6 +49,7 @@
                     </option>
                 </b-select>
             </b-field>
+            <div class="danger">{{warning}}</div>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -70,7 +71,8 @@ export default {
       firstname:"",
       lastname:"",
       userlevel: undefined,
-      data: ['1','2','3','4','5']
+      data: ['1','2','3','4','5'],
+      warning:""
     }
   },
   computed:{
@@ -131,8 +133,8 @@ export default {
           self.toUserPage();
           self.close();
       })
-      .catch(() => {
-
+      .catch((err) => {
+        self.warning="Username already exist!"
       });
     },
     toUserPage(){
@@ -155,5 +157,8 @@ export default {
   .button:hover{
     background: #ffffff;
     color: #2d2d2d;
+  }
+  .danger{
+    color:red;
   }
 </style>

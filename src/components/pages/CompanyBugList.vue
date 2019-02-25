@@ -28,7 +28,7 @@
     </div>
     <div class="container">
       <div class="box" v-for="(bug,index) in currentBuglist" :key="index">
-        <bugbox :data="bug" :employeeList="employees"/>
+        <bugbox :data="bug" :employeeList="employees" :programList="programlist"/>
       </div>
     </div>
     <advance v-if="advance" v-on:toggle="advanceSearch"/>
@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      programlist: [],
       buglist: [],
       currentBuglist: [],
       employees: [],
@@ -72,20 +73,24 @@ export default {
     axios.get(this.$store.getters["routes/getBugs"]).then(result => {
       self.buglist = result.data.bugs;
       self.currentBuglist = self.buglist;
+      console.log(self.currentBuglist);
     });
     axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
       self.employees = result.data.employees;
     });
+    axios.get(this.$store.getters["routes/getProgram"]).then(result => {
+      self.programlist = result.data.programs;
+    });
   },
   methods: {
-    advanceSearch(value){
-      this.advance=false;
+    advanceSearch(value) {
+      this.advance = false;
       var final = [];
       for (var property in value) {
         if (value.hasOwnProperty(property)) {
-          if(value[property] !==undefined){
+          if (value[property] !== undefined) {
             this.search = value[property];
-            this.field  = property;
+            this.field = property;
             this.updateList();
             final = final.concat(this.currentBuglist);
           }
@@ -93,7 +98,7 @@ export default {
       }
       this.currentBuglist = final;
       this.field = undefined;
-      this.search= undefined;
+      this.search = undefined;
     },
     updateList() {
       if (this.search !== "" && this.field !== undefined) {
@@ -110,8 +115,6 @@ export default {
         } else if (this.field.match("resolution")) {
           this.currentBuglist = this.searchResolution(this.search);
         } else {
-          console.log(this.field);
-          console.log(this.search);
           this.currentBuglist = this.searchOther(this.search);
         }
       } else {

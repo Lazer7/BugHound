@@ -9,10 +9,11 @@
       </header>
       <section class="modal-card-body">
         <div class="has-text-left">
-          <div class="danger">{{warning}}</div>
+         
           <b-field label="Area">
             <b-input v-model="name" placeholder="Project name" maxlength="32"/>
           </b-field>
+           <div class="danger">{{warning}}</div>
         </div>
       </section>
       <footer class="modal-card-foot">

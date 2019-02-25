@@ -10,11 +10,7 @@
       <section class="modal-card-body">
         <div class="has-text-left">
           <b-field label="Program Name">
-            <b-input
-              v-model="name"
-              placeholder="Program name"
-              maxlength="32"
-            />
+            <b-input v-model="name" placeholder="Program name" maxlength="32"/>
           </b-field>
           <b-field label="Date Created">
             <b-datepicker v-model="datestarted" placeholder="Click to select..."/>
@@ -26,6 +22,7 @@
             <b-input v-model="version" placeholder="Version" maxlength="32"/>
           </b-field>
         </div>
+        <div class="danger">{{warning}}</div>
       </section>
       <footer class="modal-card-foot">
         <button class="button" @click="submit" :disabled="validate">Submit</button>
@@ -38,14 +35,15 @@
 import axios from "axios";
 export default {
   name: "ProgramSubmission",
-  props: ["data"],
+  props: ["data", "programs"],
   data() {
     return {
       type: "",
       name: "",
       datestarted: undefined,
       release: "",
-      version: ""
+      version: "",
+      warning: ""
     };
   },
   computed: {
@@ -90,14 +88,21 @@ export default {
         release: this.release,
         version: this.version
       };
-      if (this.type == "Add") {
+      var found = this.programs.find(program => {
+        return (
+          program.name === this.name &&
+          program.release === this.release &&
+          program.version === this.version
+        );
+      });
+      if (this.type === "Add" && found === undefined) {
         axios
           .post(this.$store.getters["routes/programRoute"], body)
           .then(result => {
             console.log(result);
             self.close();
           });
-      } else {
+      } else if (this.type === "Edit") {
         body.id = this.id;
         axios
           .put(this.$store.getters["routes/programRoute"], body)
@@ -105,6 +110,9 @@ export default {
             console.log(result);
             self.close();
           });
+      } else {
+        this.warning =
+          "Program already exist with that Name/Version/Resolution";
       }
     }
   }
@@ -124,5 +132,8 @@ export default {
 .button:hover {
   background: #ffffff;
   color: #2d2d2d;
+}
+.danger {
+  color: red;
 }
 </style>

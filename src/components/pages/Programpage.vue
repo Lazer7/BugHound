@@ -29,7 +29,7 @@
         </table>
     </div>
       </div>
-      <submission :data="editData" v-on:toggle="closeSubmission" v-if="modal"/>
+      <submission :programs="data" :data="editData" v-on:toggle="closeSubmission" v-if="modal"/>
       </div>
 </template>
 
@@ -60,7 +60,6 @@ export default {
             })
         },
         toggleSubmission(value){
-            console.log(value);
             this.editData = value;
             this.modal = true;
         },
