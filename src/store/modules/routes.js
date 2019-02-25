@@ -14,7 +14,8 @@ const state = {
   getEmployees:"employee/all/",
   query:"",
   register: "authenticate/register/",
-  login: "authenticate/login/"
+  login: "authenticate/login/",
+  attachments:"attachment/"
 };
 const getters={
   APIAddress:(state)=>{
@@ -43,6 +44,9 @@ const getters={
   },
   bugRoute:(state)=>{
     return state.APIAddress + state.bugs;
+  },
+  attachmentRoute:(state)=>{
+    return state.APIAddress + state.attachments;
   },
   EmployeeProgramRoute:(state)=>{
     return state.APIAddress + state.employeeprogram;

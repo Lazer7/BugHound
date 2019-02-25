@@ -209,7 +209,25 @@
             <div v-if="deferred===undefined">Undetermined</div>
           </b-checkbox>
         </b-field>
-
+        <form enctype="multipart/form-data" novalidate>
+          <b-field label="Upload Attachments"/>
+          <div class="dropbox">
+            <input
+              type="file"
+              multiple
+              @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+              accept="*"
+              class="input-file"
+            >
+            <p>Please drag your files or click here to begin</p>
+            <div class="columns" v-for="(list,index) in chunkFiles" :key="index">
+              <div class="column is-3 has-text-centered" v-for="(file,index) in list" :key="index">
+                <img width=25% :src="getFileType(file)"/><br/>
+                {{file}}
+              </div>
+            </div>
+          </div>
+        </form>
 
         <hr>
         <button class="button" :disabled="validate" @click="submit">Submit</button>
@@ -280,7 +298,9 @@ export default {
       resolution_tested_date: undefined,
       deferred: undefined,
       type: "Add",
-      bugid: 0
+      bugid: 0,
+      attachments: new FormData(),
+      files: []
     };
   },
   mounted() {
@@ -298,6 +318,13 @@ export default {
       if (this.reported_by === undefined) return true;
       if (this.date_reported === undefined) return true;
       if (this.reproducible === undefined) return true;
+    },
+    chunkFiles(){
+      var chunkFiles = [];
+      for(var i=0,j=this.files.length; i<j; i+=4){
+        chunkFiles.push(this.files.slice(i,i+4)); 
+      }
+      return chunkFiles;
     }
   },
   watch: {
@@ -309,6 +336,32 @@ export default {
     }
   },
   methods: {
+    filesChange(fieldName, fileList) {
+      if (!fileList.length) return;
+      Array.from(Array(fileList.length).keys()).map(x => {
+        if (!this.attachments.has(fileList[x].name)) {
+          this.attachments.append(fileList[x].name, fileList[x]);
+          this.files.push(fileList[x].name);
+        }
+      });
+      for(var file of this.attachments.entries()){
+        console.log(file[0]);
+        console.log(file[1]);
+      }
+    },
+    getFileType(value){
+      var index = value.lastIndexOf('.');
+      var suffix = value.substring(index).toLowerCase();
+      if(suffix.includes('bmp')) return require('../../assets/icons/bmp.png');
+      else if(suffix.includes('dat')) return require('../../assets/icons/dat.png');
+      else if(suffix.includes('doc')) return require('../../assets/icons/doc.png');
+      else if(suffix.includes('gif')) return require('../../assets/icons/gif.png');
+      else if(suffix.includes('jpg')) return require('../../assets/icons/jpeg.png');
+      else if(suffix.includes('mp3')) return require('../../assets/icons/mp3.png');
+      else if(suffix.includes('pdf')) return require('../../assets/icons/pdf.png');
+      else if(suffix.includes('png')) return require('../../assets/icons/png.png');
+      else return require('../../assets/icons/missing.png');
+    },
     findProgram(value) {
       return this.ProgramData.find(program => {
         return program.id === value;
@@ -434,7 +487,18 @@ export default {
         axios
           .post(this.$store.getters["routes/bugRoute"], data)
           .then(result => {
-            self.toDashBoard();
+            var bugID = result.data.bug.bugid;
+            if (this.files.length !== 0) {
+              // TODO:: Attachment POST REQUEST
+              axios({
+                method: "post",
+                url: this.$store.getters["routes/attachmentRoute"] + bugID,
+                data: this.attachments,
+                config: { headers: { "Content-Type": "multipart/form-data" } }
+              }).then(result => {
+                self.toDashBoard();
+              });
+            }
           });
       } else {
         data["id"] = this.data.bugid;
@@ -457,5 +521,33 @@ hr {
 }
 .notification {
   border-radius: 10px;
+}
+.dropbox {
+  outline: 2px dashed grey; /* the dash box */
+  outline-offset: -10px;
+  background: #ffffff;
+  color: #333333;
+  padding: 10px 10px;
+
+  position: relative;
+  cursor: pointer;
+}
+
+.input-file {
+  opacity: 0; /* invisible but it's there! */
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  cursor: pointer;
+}
+
+.dropbox:hover {
+  background: #e5e4e6; /* when mouse over to the drop zone, change color */
+}
+
+.dropbox p {
+  font-size: 1.2em;
+  text-align: center;
+  padding: 50px 0;
 }
 </style>

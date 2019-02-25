@@ -73,7 +73,7 @@ export default {
     axios.get(this.$store.getters["routes/getBugs"]).then(result => {
       self.buglist = result.data.bugs;
       self.currentBuglist = self.buglist;
-      console.log(self.currentBuglist);
+
     });
     axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
       self.employees = result.data.employees;
