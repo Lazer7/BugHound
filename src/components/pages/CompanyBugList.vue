@@ -118,7 +118,7 @@ export default {
       if (this.search !== "" && this.field !== undefined) {
         if (this.field === "datereported") {
           this.currentBuglist = this.searchDate(this.search);
-        } else if (this.field.match("by")) {
+        } else if (this.field.match("by") || this.field.match("to") ) {
           this.currentBuglist = this.searchEmployee(this.search);
         } else if (this.field.match("severity")) {
           this.currentBuglist = this.searchSeverity(this.search);

@@ -59,10 +59,10 @@ export default {
       };
       axios.post(this.$store.getters['routes/login'] ,user)
       .then((result)=>{
-          this.$store.dispatch('userInfo/setUser',{username:this.username,password:this.password});
-          this.$store.dispatch('userInfo/setBearerToken', result.data.token);
-          this.toUserPage();
-          this.close();
+          self.$store.dispatch('userInfo/setUser',result.data.user);
+          self.$store.dispatch('userInfo/setBearerToken', result.data.token);
+          self.toUserPage();
+          self.close();
       })
       .catch((err) => {
         self.error=true;
@@ -70,6 +70,7 @@ export default {
       });
     },
     toUserPage(){
+      this.$store.dispatch('userInfo/setCurrentPage',0);
       this.$router.push('/Main');
     }
   }
