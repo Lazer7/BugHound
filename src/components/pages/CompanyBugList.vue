@@ -13,11 +13,7 @@
           </b-field>
         </div>
         <div class="column is-2">
-          <b-field
-            label="Search Field"
-            :type=warningType
-            :message=warning
-          >
+          <b-field label="Search Field" :type="warningType" :message="warning">
             <b-select placeholder="Select Field" v-model="field">
               <option
                 v-for="option in fieldData"
@@ -71,7 +67,7 @@ export default {
       ],
       advance: false,
       warning: "",
-      warningType:""
+      warningType: ""
     };
   },
   mounted() {
@@ -109,16 +105,16 @@ export default {
     },
     updateList() {
       if (this.field === undefined) {
-        this.warning="Please select a field"
-        this.warningType="is-danger"
-      } else{
-        this.warning=""
-        this.warningType=""
+        this.warning = "Please select a field";
+        this.warningType = "is-danger";
+      } else {
+        this.warning = "";
+        this.warningType = "";
       }
       if (this.search !== "" && this.field !== undefined) {
         if (this.field === "datereported") {
           this.currentBuglist = this.searchDate(this.search);
-        } else if (this.field.match("by") || this.field.match("to") ) {
+        } else if (this.field.match("by") || this.field.match("to")) {
           this.currentBuglist = this.searchEmployee(this.search);
         } else if (this.field.match("severity")) {
           this.currentBuglist = this.searchSeverity(this.search);

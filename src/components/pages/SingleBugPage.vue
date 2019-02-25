@@ -134,7 +134,7 @@
 import axios from "axios";
 export default {
   name: "BugBox",
-  props: ["data", "employeeList","programList"],
+  props: ["data", "employeeList", "programList"],
   data() {
     return {
       ReportData: [
@@ -161,12 +161,12 @@ export default {
         "Duplicate"
       ],
       ResolutionVersionData: ["1.0", "2.0", "3.0"],
-      program:{}
+      program: {}
     };
   },
   mounted() {
     var self = this;
-    this.program = this.filterProgram(this.data.programid)
+    this.program = this.filterProgram(this.data.programid);
   },
   methods: {
     filterProgram(id) {

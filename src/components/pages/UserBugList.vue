@@ -13,11 +13,7 @@
           </b-field>
         </div>
         <div class="column is-2">
-          <b-field
-            label="Search Field"
-            :type=warningType
-            :message=warning
-          >
+          <b-field label="Search Field" :type="warningType" :message="warning">
             <b-select placeholder="Select Field" v-model="field">
               <option
                 v-for="option in fieldData"
@@ -66,15 +62,20 @@ export default {
       ],
       advance: false,
       warning: "",
-      warningType:""
+      warningType: ""
     };
   },
   mounted() {
     var self = this;
-    axios.get(this.$store.getters["routes/getBugs"]+this.$store.getters['userInfo/User'].id).then(result => {
-      self.buglist = result.data.bugs;
-      self.currentBuglist = self.buglist;
-    });
+    axios
+      .get(
+        this.$store.getters["routes/getBugs"] +
+          this.$store.getters["userInfo/User"].id
+      )
+      .then(result => {
+        self.buglist = result.data.bugs;
+        self.currentBuglist = self.buglist;
+      });
     axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
       self.employees = result.data.employees;
     });
@@ -104,11 +105,11 @@ export default {
     },
     updateList() {
       if (this.field === undefined) {
-        this.warning="Please select a field"
-        this.warningType="is-danger"
-      } else{
-        this.warning=""
-        this.warningType=""
+        this.warning = "Please select a field";
+        this.warningType = "is-danger";
+      } else {
+        this.warning = "";
+        this.warningType = "";
       }
       if (this.search !== "" && this.field !== undefined) {
         if (this.field === "datereported") {

@@ -15,7 +15,10 @@ const state = {
   query:"",
   register: "authenticate/register/",
   login: "authenticate/login/",
-  attachments:"attachment/"
+  attachments:"attachment/",
+  programdata:"data/getBugsPerProgram/",
+  severitydata:"data/getBugsPerSeverity/",
+  prioritydata:"data/getBugsPerPriority/"
 };
 const getters={
   APIAddress:(state)=>{
@@ -23,6 +26,15 @@ const getters={
   },
   getEmployees:(state)=>{
     return state.APIAddress + state.getEmployees;
+  },
+  getSeverityData:(state)=>{
+    return state.APIAddress + state.severitydata;
+  },
+  getProgramData:(state)=>{
+    return state.APIAddress + state.programdata;
+  },
+  getPriorityData:(state)=>{
+    return state.APIAddress + state.prioritydata;
   },
   getProgram:(state)=>{
     return state.APIAddress + state.getProgram;

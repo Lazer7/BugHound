@@ -222,7 +222,8 @@
             <p>Please drag your files or click here to begin</p>
             <div class="columns" v-for="(list,index) in chunkFiles" :key="index">
               <div class="column is-3 has-text-centered" v-for="(file,index) in list" :key="index">
-                <img width=25% :src="getFileType(file)"/><br/>
+                <img width="25%" :src="getFileType(file)">
+                <br>
                 {{file}}
               </div>
             </div>
@@ -319,10 +320,10 @@ export default {
       if (this.date_reported === undefined) return true;
       if (this.reproducible === undefined) return true;
     },
-    chunkFiles(){
+    chunkFiles() {
       var chunkFiles = [];
-      for(var i=0,j=this.files.length; i<j; i+=4){
-        chunkFiles.push(this.files.slice(i,i+4)); 
+      for (var i = 0, j = this.files.length; i < j; i += 4) {
+        chunkFiles.push(this.files.slice(i, i + 4));
       }
       return chunkFiles;
     }
@@ -344,23 +345,30 @@ export default {
           this.files.push(fileList[x].name);
         }
       });
-      for(var file of this.attachments.entries()){
+      for (var file of this.attachments.entries()) {
         console.log(file[0]);
         console.log(file[1]);
       }
     },
-    getFileType(value){
-      var index = value.lastIndexOf('.');
+    getFileType(value) {
+      var index = value.lastIndexOf(".");
       var suffix = value.substring(index).toLowerCase();
-      if(suffix.includes('bmp')) return require('../../assets/icons/bmp.png');
-      else if(suffix.includes('dat')) return require('../../assets/icons/dat.png');
-      else if(suffix.includes('doc')) return require('../../assets/icons/doc.png');
-      else if(suffix.includes('gif')) return require('../../assets/icons/gif.png');
-      else if(suffix.includes('jpg')) return require('../../assets/icons/jpeg.png');
-      else if(suffix.includes('mp3')) return require('../../assets/icons/mp3.png');
-      else if(suffix.includes('pdf')) return require('../../assets/icons/pdf.png');
-      else if(suffix.includes('png')) return require('../../assets/icons/png.png');
-      else return require('../../assets/icons/missing.png');
+      if (suffix.includes("bmp")) return require("../../assets/icons/bmp.png");
+      else if (suffix.includes("dat"))
+        return require("../../assets/icons/dat.png");
+      else if (suffix.includes("doc"))
+        return require("../../assets/icons/doc.png");
+      else if (suffix.includes("gif"))
+        return require("../../assets/icons/gif.png");
+      else if (suffix.includes("jpg"))
+        return require("../../assets/icons/jpeg.png");
+      else if (suffix.includes("mp3"))
+        return require("../../assets/icons/mp3.png");
+      else if (suffix.includes("pdf"))
+        return require("../../assets/icons/pdf.png");
+      else if (suffix.includes("png"))
+        return require("../../assets/icons/png.png");
+      else return require("../../assets/icons/missing.png");
     },
     findProgram(value) {
       return this.ProgramData.find(program => {
