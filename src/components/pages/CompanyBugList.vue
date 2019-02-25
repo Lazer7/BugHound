@@ -13,7 +13,11 @@
           </b-field>
         </div>
         <div class="column is-2">
-          <b-field label="Search Field">
+          <b-field
+            label="Search Field"
+            :type=warningType
+            :message=warning
+          >
             <b-select placeholder="Select Field" v-model="field">
               <option
                 v-for="option in fieldData"
@@ -65,7 +69,9 @@ export default {
         { key: "datereported", value: "Report Date" },
         { key: "resolvedby", value: "Resolved By" }
       ],
-      advance: false
+      advance: false,
+      warning: "",
+      warningType:""
     };
   },
   mounted() {
@@ -73,7 +79,6 @@ export default {
     axios.get(this.$store.getters["routes/getBugs"]).then(result => {
       self.buglist = result.data.bugs;
       self.currentBuglist = self.buglist;
-
     });
     axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
       self.employees = result.data.employees;
@@ -85,22 +90,31 @@ export default {
   methods: {
     advanceSearch(value) {
       this.advance = false;
-      var final = [];
-      for (var property in value) {
-        if (value.hasOwnProperty(property)) {
-          if (value[property] !== undefined) {
-            this.search = value[property];
-            this.field = property;
-            this.updateList();
-            final = final.concat(this.currentBuglist);
+      if (value) {
+        var final = [];
+        for (var property in value) {
+          if (value.hasOwnProperty(property)) {
+            if (value[property] !== undefined) {
+              this.search = value[property];
+              this.field = property;
+              this.updateList();
+              final = final.concat(this.currentBuglist);
+            }
           }
         }
+        this.currentBuglist = final;
+        this.field = undefined;
+        this.search = undefined;
       }
-      this.currentBuglist = final;
-      this.field = undefined;
-      this.search = undefined;
     },
     updateList() {
+      if (this.field === undefined) {
+        this.warning="Please select a field"
+        this.warningType="is-danger"
+      } else{
+        this.warning=""
+        this.warningType=""
+      }
       if (this.search !== "" && this.field !== undefined) {
         if (this.field === "datereported") {
           this.currentBuglist = this.searchDate(this.search);
@@ -114,6 +128,8 @@ export default {
           this.currentBuglist = this.searchReportType(this.search);
         } else if (this.field.match("resolution")) {
           this.currentBuglist = this.searchResolution(this.search);
+        } else if (this.field.match("programid")) {
+          this.currentBuglist = this.searchProgram(this.search);
         } else {
           this.currentBuglist = this.searchOther(this.search);
         }
@@ -155,58 +171,80 @@ export default {
     },
     searchSeverity(value) {
       var result = [];
-      var data = ["Fatal", "Serious", "Minor"];
+      var data = ["fatal", "serious", "minor"];
       this.buglist.forEach(bug => {
-        if (value.match(data[bug[this.field] - 1])) result.push(bug);
+        if (value.toLowerCase().match(data[bug[this.field] - 1]))
+          result.push(bug);
       });
       return result;
     },
     searchStatus(value) {
       var result = [];
-      var data = ["Open", "Close"];
+      var data = ["open", "close"];
       this.buglist.forEach(bug => {
-        if (value.match(data[bug[this.field] - 1])) result.push(bug);
+        if (value.toLowerCase().match(data[bug[this.field] - 1]))
+          result.push(bug);
       });
       return result;
     },
     searchReportType(value) {
       var result = [];
       var data = [
-        "Coding Error",
-        "Design Issue",
-        "Suggestion",
-        "Documentation",
-        "Hardware",
-        "Query"
+        "coding error",
+        "design issue",
+        "suggestion",
+        "documentation",
+        "hardware",
+        "query"
       ];
       this.buglist.forEach(bug => {
-        if (value.match(data[bug[this.field] - 1])) result.push(bug);
+        if (value.toLowerCase().match(data[bug[this.field] - 1]))
+          result.push(bug);
       });
       return result;
     },
     searchResolution(value) {
       var result = [];
       var data = [
-        "Pending",
-        "Fixed",
-        "Irreproducible",
-        "Deferred",
-        "At designed",
-        "Can't be fixed",
-        "Withdrwawn by reporter",
-        "Needs more information",
-        "Disagree with suggestion",
-        "Duplicate"
+        "pending",
+        "fixed",
+        "irreproducible",
+        "deferred",
+        "at designed",
+        "can't be fixed",
+        "withdrwawn by reporter",
+        "needs more information",
+        "disagree with suggestion",
+        "duplicate"
       ];
       this.buglist.forEach(bug => {
-        if (value.match(data[bug[this.field] - 1])) result.push(bug);
+        if (value.toLowerCase().match(data[bug[this.field] - 1]))
+          result.push(bug);
+      });
+      return result;
+    },
+    searchProgram(value) {
+      var result = [];
+      this.buglist.forEach(bug => {
+        if (value.constructor === Object) {
+          if (value.id === bug[this.field]) {
+            result.push(bug);
+          }
+        } else {
+          var programName = this.programlist.find(program => {
+            return program.id === bug[this.field];
+          });
+          if (value.toLowerCase().match(programName.name.toLowerCase())) {
+            result.push(bug);
+          }
+        }
       });
       return result;
     },
     searchOther(value) {
       var result = [];
       this.buglist.forEach(bug => {
-        if (value.match(bug[this.field])) {
+        if (value.toLowerCase().match(bug[this.field])) {
           result.push(bug);
         }
       });

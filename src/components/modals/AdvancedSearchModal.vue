@@ -29,7 +29,7 @@
             <b-select placeholder="Select Severity" v-model="severity">
               <option
                 v-for="data in SeverityData"
-                :value="data.key"
+                :value="data.value"
                 :key="data.key"
               >{{ data.value }}</option>
             </b-select>
@@ -73,7 +73,7 @@
                 <b-select placeholder="Status" v-model="status">
                   <option
                     v-for="data in StatusData"
-                    :value="data.key"
+                    :value="data.value"
                     :key="data.key"
                   >{{ data.value }}</option>
                 </b-select>
@@ -94,7 +94,7 @@
                 <b-select placeholder="Resolution" v-model="resolution">
                   <option
                     v-for="data in ResolutionData"
-                    :value="data.key"
+                    :value="data.value"
                     :key="data.key"
                   >{{ data.value }}</option>
                 </b-select>
@@ -115,7 +115,7 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button" @click="submit">Submit</button>
+        <button class="button" @click="submit" :disabled="validSearch">Submit</button>
         <button class="button" @click="close">Cancel</button>
       </footer>
     </div>
@@ -181,18 +181,42 @@ export default {
       });
     });
   },
+    computed: {
+    validSearch() {
+      if (
+        this.program === undefined &&
+        this.report_type === undefined &&
+        this.severity === undefined &&
+        this.date_reported === undefined &&
+        this.area === undefined &&
+        this.assigned_to === undefined &&
+        this.status === undefined &&
+        this.priority === undefined &&
+        this.resolution === undefined &&
+        this.resolved_by === undefined
+      ) {
+        console.log("Everything is undefine");
+        return true;
+      } else {
+        console.log("KEK");
+        return false;
+      }
+    }
+  },
   methods: {
     close() {
-      this.$emit("toggle",{});
+      this.$emit("toggle");
     },
     submit() {
-      var programName = this.program !==undefined? this.program.name: undefined;
-      var areaName = this.area !==undefined? this.area.name: undefined;
-      var resolvedName = this.resolved_by!== undefined? this.resolved_by.id:undefined;
-      var assignedName = this.assigned_to!==undefined?this.assigned_to:undefined;
+      var programName = this.program !== undefined ? this.program : undefined;
+      var areaName = this.area !== undefined ? this.area.name : undefined;
+      var resolvedName =
+        this.resolved_by !== undefined ? this.resolved_by.id : undefined;
+      var assignedName =
+        this.assigned_to !== undefined ? this.assigned_to : undefined;
 
-      var searchData={
-        program: programName,
+      var searchData = {
+        programid: programName,
         reporttype: this.report_type,
         severity: this.severity,
         datereported: this.date_reported,
@@ -202,8 +226,8 @@ export default {
         priority: this.priority,
         resolution: this.resolution,
         resolvedby: resolvedName
-      }
-      this.$emit("toggle",searchData);
+      };
+      this.$emit("toggle", searchData);
     }
   }
 };
