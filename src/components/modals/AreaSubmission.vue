@@ -51,7 +51,10 @@ export default {
       axios
         .post(this.$store.getters["routes/areaRoute"], body)
         .then(result => {
-          console.log(result);
+          self.$snackbar.open({
+              message: "Successfully created a area!",
+              duration: 5000
+            });
           self.close();
         })
         .catch(err => {

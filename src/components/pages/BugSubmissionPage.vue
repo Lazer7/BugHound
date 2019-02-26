@@ -497,23 +497,35 @@ export default {
           .then(result => {
             var bugID = result.data.bug.bugid;
             if (this.files.length !== 0) {
-              // TODO:: Attachment POST REQUEST
               axios({
                 method: "post",
                 url: this.$store.getters["routes/attachmentRoute"] + bugID,
                 data: this.attachments,
                 config: { headers: { "Content-Type": "multipart/form-data" } }
               }).then(result => {
-                self.showSuccess("Successfully created bug!");
+                self.$snackbar.open({
+                  message: "Successfully created a bug!",
+                  duration: 5000
+                });
                 self.toDashBoard();
               });
             } else {
-              self.showSuccess("Successfully created bug!");
+              self.$snackbar.open({
+                message: "Successfully created a bug!",
+                duration: 5000
+              });
               self.toDashBoard();
             }
           })
           .catch(err => {
-            showError(err.response.data.msg);
+            Swal.fire({
+              background: "#2d2d2d",
+              title: `<span style="color:#FF0000">Oops.. OwO</span>`,
+              html:
+                `<span style="color:#FF0000">Something went wrong!</span>` +
+                err.response.data.msg,
+              type: "error"
+            });
           });
       } else {
         data["id"] = this.data.bugid;
@@ -521,26 +533,6 @@ export default {
           self.toDashBoard();
         });
       }
-    },
-    showSuccess(message) {
-      this.$dialog.alert({
-        title: "Success",
-        message: message,
-        type: "is-success",
-        hasIcon: true,
-        icon: "times-circle",
-        iconPack: "fa"
-      });
-    },
-    showError(message) {
-      this.$dialog.alert({
-        title: "Error",
-        message: message,
-        type: "is-danger",
-        hasIcon: true,
-        icon: "times-circle",
-        iconPack: "fa"
-      });
     },
     toDashBoard() {
       this.$store.dispatch("userInfo/setCurrentPage", 0);

@@ -230,15 +230,15 @@ export default {
               this.$store.dispatch("userInfo/setCurrentPage", 0);
               this.$router.push("/Main/DashBoard");
             })
-            .catch((err) => {
-              this.$dialog.alert({
-                    title: 'Error',
-                    message: 'Cannot delete bug as it is currently in use.',
-                    type: 'is-danger',
-                    hasIcon: true,
-                    icon: 'times-circle',
-                    iconPack: 'fa'
-                })
+            .catch(err => {
+              Swal.fire({
+                background: "#2d2d2d",
+                title: `<span style="color:#FF0000">Oops.. OwO</span>`,
+                html:
+                  `<span style="color:#FF0000">Cannot delete bug as it is currently in use!</span>` +
+                  err.response.data.msg,
+                type: "error"
+              });
             });
         }
       });

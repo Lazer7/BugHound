@@ -99,47 +99,47 @@ export default {
         axios
           .post(this.$store.getters["routes/programRoute"], body)
           .then(result => {
-            self.showSuccess("Successfully created program!");
+            self.$snackbar.open({
+              message: "Successfully created a program!",
+              duration: 5000
+            });
             self.close();
           })
           .catch(err => {
-            self.showError(err.response.data.msg);
+            Swal.fire({
+              background: "#2d2d2d",
+              title: `<span style="color:#FF0000">Oops.. OwO</span>`,
+              html:
+                `<span style="color:#FF0000">Something went wrong!</span>` +
+                err.response.data.msg,
+              type: "error"
+            });
           });
       } else if (this.type === "Edit") {
         body.id = this.id;
         axios
           .put(this.$store.getters["routes/programRoute"], body)
           .then(result => {
-            self.showSuccess("Successfully created program!");
+            self.$snackbar.open({
+              message: "Successfully edited the program: " + self.name + "!",
+              duration: 5000
+            });
             self.close();
           })
           .catch(err => {
-            self.showError(err.response.data.msg);
+            Swal.fire({
+              background: "#2d2d2d",
+              title: `<span style="color:#FF0000">Oops.. OwO</span>`,
+              html:
+                `<span style="color:#FF0000">Something went wrong!</span>` +
+                err.response.data.msg,
+              type: "error"
+            });
           });
       } else {
         this.warning =
           "Program already exist with that Name/Version/Resolution";
       }
-    },
-    showSuccess(message) {
-      this.$dialog.alert({
-        title: "Success",
-        message: message,
-        type: "is-success",
-        hasIcon: true,
-        icon: "times-circle",
-        iconPack: "fa"
-      });
-    },
-    showError(message) {
-      this.$dialog.alert({
-        title: "Error",
-        message: message,
-        type: "is-danger",
-        hasIcon: true,
-        icon: "times-circle",
-        iconPack: "fa"
-      });
     }
   }
 };

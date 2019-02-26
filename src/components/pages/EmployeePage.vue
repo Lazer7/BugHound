@@ -79,6 +79,7 @@ export default {
       this.editModal = true;
     },
     toggleDelete(value) {
+      var self = this;
       this.$dialog.confirm({
         title: "Deleting account",
         message:
@@ -89,15 +90,21 @@ export default {
         onConfirm: () => {
           axios
             .delete(this.$store.getters["routes/employeeRoute"] + value.id)
-            .catch((err) => {
-              this.$dialog.alert({
-                    title: 'Error',
-                    message: 'Cannot delete employee as it is currently in use.',
-                    type: 'is-danger',
-                    hasIcon: true,
-                    icon: 'times-circle',
-                    iconPack: 'fa'
-                })
+            .then(result => {
+              self.$snackbar.open({
+                message: "Successfully deleted a employee!",
+                duration: 5000
+              });
+            })
+            .catch(err => {
+              Swal.fire({
+                background: "#2d2d2d",
+                title: `<span style="color:#FF0000">Oops.. OwO</span>`,
+                html:
+                  `<span style="color:#FF0000">Cannot delete employee as it is currently in use!</span>` +
+                  err.response.data.msg,
+                type: "error"
+              });
             });
         }
       });
