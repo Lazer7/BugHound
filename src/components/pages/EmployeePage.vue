@@ -101,8 +101,7 @@ export default {
                 background: "#2d2d2d",
                 title: `<span style="color:#FF0000">Oops.. OwO</span>`,
                 html:
-                  `<span style="color:#FF0000">Cannot delete employee as it is currently in use!</span>` +
-                  err.response.data.msg,
+                  `<span style="color:#FF0000">Cannot delete employee as it is currently in use!</span>`,
                 type: "error"
               });
             });
