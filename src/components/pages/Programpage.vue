@@ -115,6 +115,16 @@ export default {
             .delete(this.$store.getters["routes/programRoute"] + value.name)
             .then(() => {
               this.getValue();
+            })
+            .catch((err) => {
+              this.$dialog.alert({
+                    title: 'Error',
+                    message: 'Cannot delete program as it is currently in use.',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    icon: 'times-circle',
+                    iconPack: 'fa'
+                })
             });
         }
       });

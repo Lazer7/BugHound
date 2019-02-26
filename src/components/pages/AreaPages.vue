@@ -74,6 +74,16 @@ export default {
             .delete(this.$store.getters["routes/areaRoute"] + value.name)
             .then(() => {
               this.getValue();
+            })
+            .catch((err) => {
+              this.$dialog.alert({
+                    title: 'Error',
+                    message: 'Cannot delete area as it is currently in use.',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    icon: 'times-circle',
+                    iconPack: 'fa'
+                })
             });
         }
       });

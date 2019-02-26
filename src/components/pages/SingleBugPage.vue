@@ -229,6 +229,16 @@ export default {
             .then(() => {
               this.$store.dispatch("userInfo/setCurrentPage", 0);
               this.$router.push("/Main/DashBoard");
+            })
+            .catch((err) => {
+              this.$dialog.alert({
+                    title: 'Error',
+                    message: 'Cannot delete bug as it is currently in use.',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    icon: 'times-circle',
+                    iconPack: 'fa'
+                })
             });
         }
       });

@@ -89,8 +89,15 @@ export default {
         onConfirm: () => {
           axios
             .delete(this.$store.getters["routes/employeeRoute"] + value.id)
-            .then(() => {
-              this.getValue();
+            .catch((err) => {
+              this.$dialog.alert({
+                    title: 'Error',
+                    message: 'Cannot delete employee as it is currently in use.',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    icon: 'times-circle',
+                    iconPack: 'fa'
+                })
             });
         }
       });
