@@ -28,11 +28,13 @@
 
 <script>
 import Swal from 'sweetalert2';
+import axios from 'axios';
 export default {
   name:'usernav',
   methods:{
     logout(){
       this.$store.dispatch('userInfo/resetUser');
+      axios.defaults.headers.common['Authorization'] = undefined;
       this.$router.push('/');
       Swal.fire({
         background:"#2d2d2d",

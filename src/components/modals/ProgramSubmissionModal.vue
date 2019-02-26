@@ -99,21 +99,47 @@ export default {
         axios
           .post(this.$store.getters["routes/programRoute"], body)
           .then(result => {
-            console.log(result);
+            self.showSuccess("Successfully created program!");
             self.close();
+          })
+          .catch(err => {
+            self.showError(err.response.data.msg);
           });
       } else if (this.type === "Edit") {
         body.id = this.id;
         axios
           .put(this.$store.getters["routes/programRoute"], body)
           .then(result => {
-            console.log(result);
+            self.showSuccess("Successfully created program!");
             self.close();
+          })
+          .catch(err => {
+            self.showError(err.response.data.msg);
           });
       } else {
         this.warning =
           "Program already exist with that Name/Version/Resolution";
       }
+    },
+    showSuccess(message) {
+      this.$dialog.alert({
+        title: "Success",
+        message: message,
+        type: "is-success",
+        hasIcon: true,
+        icon: "times-circle",
+        iconPack: "fa"
+      });
+    },
+    showError(message) {
+      this.$dialog.alert({
+        title: "Error",
+        message: message,
+        type: "is-danger",
+        hasIcon: true,
+        icon: "times-circle",
+        iconPack: "fa"
+      });
     }
   }
 };

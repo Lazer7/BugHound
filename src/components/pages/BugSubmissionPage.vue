@@ -504,9 +504,16 @@ export default {
                 data: this.attachments,
                 config: { headers: { "Content-Type": "multipart/form-data" } }
               }).then(result => {
+                self.showSuccess("Successfully created bug!");
                 self.toDashBoard();
               });
+            } else {
+              self.showSuccess("Successfully created bug!");
+              self.toDashBoard();
             }
+          })
+          .catch(err => {
+            showError(err.response.data.msg);
           });
       } else {
         data["id"] = this.data.bugid;
@@ -514,6 +521,26 @@ export default {
           self.toDashBoard();
         });
       }
+    },
+    showSuccess(message) {
+      this.$dialog.alert({
+        title: "Success",
+        message: message,
+        type: "is-success",
+        hasIcon: true,
+        icon: "times-circle",
+        iconPack: "fa"
+      });
+    },
+    showError(message) {
+      this.$dialog.alert({
+        title: "Error",
+        message: message,
+        type: "is-danger",
+        hasIcon: true,
+        icon: "times-circle",
+        iconPack: "fa"
+      });
     },
     toDashBoard() {
       this.$store.dispatch("userInfo/setCurrentPage", 0);
