@@ -6,7 +6,7 @@
       <div class="tile is-parent">
         <article class="tile is-child is-5 notification">
           <p class="title"># of Bugs per Program</p>
-          <program/>
+          <program :user="user" />
         </article>
         <article class="tile is-child is-5 notification">
           <p class="title">Big OOF</p>
@@ -18,11 +18,11 @@
       <div class="tile is-parent">
         <article class="tile is-child is-5 notification">
           <p class="title">Severity Data</p>
-          <severity/>
+          <severity :user="user" />
         </article>
         <article class="tile is-child is-5 notification">
           <p class="title">Priority Data</p>
-          <priority/>
+          <priority :user="user" />
         </article>
       </div>
     </div>
@@ -38,6 +38,11 @@ export default {
     severity:severity,
     program:program,
     priority:priority
+  },
+  data() {
+    return {
+      user: this.$store.getters["userInfo/User"]
+    }
   }
 }
 </script>

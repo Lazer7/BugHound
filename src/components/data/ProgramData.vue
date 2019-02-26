@@ -8,6 +8,7 @@ import chart from "chart.js";
 import axios from "axios";
 export default {
   name: "programdata",
+  props: ["user"],
   data() {
     return {
       canvasName:"programdata",
@@ -17,7 +18,7 @@ export default {
     };
   },
   mounted() {
-      axios.get(this.$store.getters['routes/getProgramData']).then(result=>{
+      axios.get(this.$store.getters['routes/getProgramData'] + this.user.id).then(result=>{
         result.data.bugs.forEach(bug => {
             this.labels.push(bug.name);
             this.data.push(bug.bugscount);

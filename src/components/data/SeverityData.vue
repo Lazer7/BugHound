@@ -8,6 +8,7 @@ import chart from "chart.js";
 import axios from "axios";
 export default {
   name: "severitydata",
+  props: ["user"],
   data() {
     return {
       canvasName: "severitydata",
@@ -22,7 +23,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(this.$store.getters["routes/getSeverityData"]).then(result => {
+    axios.get(this.$store.getters["routes/getSeverityData"] + this.user.id).then(result => {
       console.log(result);
       result.data.bugs.forEach(bug => {
         this.labels.push(this.severityData[bug.severity-1]);

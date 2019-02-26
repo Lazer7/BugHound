@@ -8,6 +8,7 @@ import chart from "chart.js";
 import axios from "axios";
 export default {
   name: "prioritydata",
+  props: ["user"],
   data() {
     return {
       canvasName: "prioritydata",
@@ -17,7 +18,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(this.$store.getters["routes/getPriorityData"]).then(result => {
+    axios.get(this.$store.getters["routes/getPriorityData"] + this.user.id).then(result => {
       result.data.bugs.forEach(bug => {
         if (bug.priority === null) bug.priority = "Not Set";
         this.labels.push("Priority:" + bug.priority);
