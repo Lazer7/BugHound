@@ -61,6 +61,7 @@ export default {
       .then((result)=>{
           self.$store.dispatch('userInfo/setUser',result.data.user);
           self.$store.dispatch('userInfo/setBearerToken', result.data.token);
+          axios.defaults.headers.common['Authorization'] = "Bearer " + result.data.token;
           self.toUserPage();
           self.close();
       })
