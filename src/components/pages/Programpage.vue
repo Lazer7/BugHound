@@ -48,6 +48,7 @@
 import axios from "axios";
 import "vue-awesome/icons";
 import submission from "../modals/ProgramSubmissionModal";
+import Swal from 'sweetalert2';
 export default {
   name: "employee",
   components: {

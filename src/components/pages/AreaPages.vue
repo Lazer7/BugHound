@@ -38,6 +38,7 @@
 </template>
 <script>
 import submission from "../modals/AreaSubmission";
+import Swal from 'sweetalert2';
 import axios from "axios";
 export default {
   name: "BugReport",
@@ -62,6 +63,7 @@ export default {
       });
     },
     toggleDelete(value) {
+      var self = this;
       this.$dialog.confirm({
         title: "Deleting area",
         message:
@@ -73,6 +75,10 @@ export default {
           axios
             .delete(this.$store.getters["routes/areaRoute"] + value.name)
             .then(() => {
+              self.$snackbar.open({
+                message: "Successfully deleted a area!",
+                duration: 5000
+              });
               this.getValue();
             })
             .catch(err => {

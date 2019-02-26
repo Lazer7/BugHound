@@ -132,6 +132,7 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
 export default {
   name: "BugBox",
   props: ["data", "employeeList", "programList"],

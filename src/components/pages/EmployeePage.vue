@@ -42,6 +42,7 @@
 import axios from "axios";
 import "vue-awesome/icons";
 import edit from "../modals/EmployeeEditModal";
+import Swal from 'sweetalert2';
 export default {
   name: "employee",
   components: {
