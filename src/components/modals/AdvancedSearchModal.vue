@@ -195,10 +195,8 @@ export default {
         this.resolution === undefined &&
         this.resolved_by === undefined
       ) {
-        console.log("Everything is undefine");
         return true;
       } else {
-        console.log("KEK");
         return false;
       }
     }

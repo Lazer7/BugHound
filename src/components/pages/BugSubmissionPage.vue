@@ -220,12 +220,14 @@
               class="input-file"
             >
             <p>Please drag your files or click here to begin</p>
-            <div class="columns" v-for="(list,index) in chunkFiles" :key="index">
-              <div class="column is-3 has-text-centered" v-for="(file,index) in list" :key="index">
-                <img width="25%" :src="getFileType(file)">
-                <br>
-                {{file}}
-              </div>
+          </div>
+          <div class="columns" v-for="(list,index) in chunkFiles" :key="index">
+            <div class="column is-3 has-text-centered" v-for="(file,index) in list" :key="index">
+              <img width="25%" :src="getFileType(file)">
+              <br>
+              {{file}}
+              <br>
+              <a class="button" @click="removeFile(file)">Delete File</a>
             </div>
           </div>
         </form>
@@ -239,7 +241,7 @@
 </template>
 <script>
 import axios from "axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 export default {
   name: "BugReport",
   props: ["data"],
@@ -302,7 +304,8 @@ export default {
       type: "Add",
       bugid: 0,
       attachments: new FormData(),
-      files: []
+      files: [],
+      editedFiles: []
     };
   },
   mounted() {
@@ -338,18 +341,42 @@ export default {
     }
   },
   methods: {
+    removeFile(value) {
+      var editIndex = this.editedFiles.find(file => {
+        return file.filename.substring(10) === value;
+      });
+      if (this.type === "Edit" && editIndex) {
+        var self = this;
+        var index = this.files.indexOf(editIndex.filename.substring(10));
+        var eindex = this.editedFiles.indexOf(editIndex);
+        this.files.splice(index, 1);
+        this.editedFiles.splice(eindex, 1);
+        axios
+          .delete(this.$store.getters["routes/attachmentRoute"] + editIndex.id)
+          .then(result => {
+            self.$snackbar.open({
+              message: "Successfully deleted existing attachment!",
+              duration: 5000
+            });
+          });
+      } else {
+        this.attachments.delete(value);
+        var index = this.files.indexOf(value);
+        this.files.splice(index, 1);
+      }
+    },
     filesChange(fieldName, fileList) {
       if (!fileList.length) return;
       Array.from(Array(fileList.length).keys()).map(x => {
-        if (!this.attachments.has(fileList[x].name)) {
-          this.attachments.append(fileList[x].name, fileList[x]);
-          this.files.push(fileList[x].name);
+        var filename = fileList[x].name.toLowerCase();
+        if (
+          !this.attachments.has(filename) &&
+          this.files.indexOf(filename) === -1
+        ) {
+          this.attachments.append(filename, fileList[x]);
+          this.files.push(filename);
         }
       });
-      for (var file of this.attachments.entries()) {
-        console.log(file[0]);
-        console.log(file[1]);
-      }
     },
     getFileType(value) {
       var index = value.lastIndexOf(".");
@@ -403,55 +430,66 @@ export default {
       axios.get(this.$store.getters["routes/getProgram"]).then(result => {
         self.ProgramData = result.data.programs;
         axios
-          .get(this.$store.getters["routes/EmployeeProgramRoute"])
+          .get(self.$store.getters["routes/EmployeeProgramRoute"])
           .then(result => {
             self.EmployeeProgram = result.data.programs;
             axios
-              .get(this.$store.getters["routes/getEmployees"])
+              .get(self.$store.getters["routes/getEmployees"])
               .then(result => {
                 self.EmployeeData = result.data.employees;
                 axios
-                  .get(this.$store.getters["routes/getArea"])
+                  .get(self.$store.getters["routes/getArea"])
                   .then(result => {
                     self.AreaData = result.data.areas;
-                    this.filteredItems();
-                    if (this.type === "Edit") {
-                      this.program = this.findProgram(this.data.programid);
-                      this.report_type = this.data.reporttype;
-                      this.severity = this.data.severity;
-                      this.problem_summary = this.data.problemsummary;
-                      this.problem_description = this.data.problemdescription;
-                      this.suggested_fix = this.data.suggestedfix;
-                      this.reported_by = this.findEmployee(
-                        this.data.reportedby
+                    self.filteredItems();
+                    if (self.type === "Edit") {
+                      self.program = self.findProgram(self.data.programid);
+                      self.report_type = self.data.reporttype;
+                      self.severity = self.data.severity;
+                      self.problem_summary = self.data.problemsummary;
+                      self.problem_description = self.data.problemdescription;
+                      self.suggested_fix = self.data.suggestedfix;
+                      self.reported_by = self.findEmployee(
+                        self.data.reportedby
                       );
-                      this.date_reported = new Date(this.data.datereported);
-                      this.reproducible =
-                        this.data.reproducible === 1 ? true : false;
-                      this.area = { name: this.data.area };
-                      this.assigned_to = this.findEmployee(
-                        this.data.assignedto
+                      self.date_reported = new Date(self.data.datereported);
+                      self.reproducible =
+                        self.data.reproducible === 1 ? true : false;
+                      self.area = { name: self.data.area };
+                      self.assigned_to = self.findEmployee(
+                        self.data.assignedto
                       );
-                      this.comments = this.data.comments;
-                      this.priority = this.data.priority;
-                      this.status = this.data.status;
-                      this.resolution = this.data.resolution;
-                      this.resolution_version = this.data.resolutionversion;
-                      this.resolved_by = this.findEmployee(
-                        this.data.resolvedby
+                      self.comments = self.data.comments;
+                      self.priority = self.data.priority;
+                      self.status = self.data.status;
+                      self.resolution = self.data.resolution;
+                      self.resolution_version = self.data.resolutionversion;
+                      self.resolved_by = self.findEmployee(
+                        self.data.resolvedby
                       );
-                      if (this.date_resolved)
-                        this.date_resolved = new Date(this.data.dateresolved);
-                      this.resolution_tested_by = this.findEmployee(
-                        this.data.resolutiontestedby
+                      if (self.data.dateresolved)
+                        self.date_resolved = new Date(self.data.dateresolved);
+                      self.resolution_tested_by = self.findEmployee(
+                        self.data.resolutiontestedby
                       );
-                      if (this.resolution_tested_date)
-                        this.resolution_tested_date = new Date(
-                          this.data.resolutiontesteddate
+                      if (self.data.resolutiontesteddate)
+                        self.resolution_tested_date = new Date(
+                          self.data.resolutiontesteddate
                         );
-                      if (this.deferred) {
-                        this.deferred = this.data.deferred === 1 ? true : false;
+                      if (self.data.deferred) {
+                        self.deferred = self.data.deferred === 1 ? true : false;
                       }
+                      axios
+                        .get(
+                          self.$store.getters["routes/attachmentRoute"] +
+                            self.data.id
+                        )
+                        .then(result => {
+                          result.data.attachments.forEach(file => {
+                            self.files.push(file.filename.substring(10));
+                          });
+                          self.editedFiles = result.data.attachments;
+                        });
                     }
                   });
               });
@@ -531,7 +569,27 @@ export default {
       } else {
         data["id"] = this.data.bugid;
         axios.put(this.$store.getters["routes/bugRoute"], data).then(result => {
-          self.toDashBoard();
+          var bugID = result.data.bug.bugid;
+          if (this.files.length > this.editedFiles.length) {
+            axios({
+              method: "post",
+              url: this.$store.getters["routes/attachmentRoute"] + bugID,
+              data: this.attachments,
+              config: { headers: { "Content-Type": "multipart/form-data" } }
+            }).then(result => {
+              self.$snackbar.open({
+                message: "Successfully edited a bug!",
+                duration: 5000
+              });
+              self.toDashBoard();
+            });
+          } else {
+            self.$snackbar.open({
+              message: "Successfully edited a bug!",
+              duration: 5000
+            });
+            self.toDashBoard();
+          }
         });
       }
     },
@@ -556,7 +614,7 @@ hr {
   background: #ffffff;
   color: #333333;
   padding: 10px 10px;
-
+  margin-bottom: 10px;
   position: relative;
   cursor: pointer;
 }

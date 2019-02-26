@@ -18,7 +18,9 @@ const state = {
   attachments:"attachment/",
   programdata:"data/getBugsPerProgram/",
   severitydata:"data/getBugsPerSeverity/",
-  prioritydata:"data/getBugsPerPriority/"
+  prioritydata:"data/getBugsPerPriority/",
+  unassigneddata:"data/getUnassignedBugs/",
+  download:"download/"
 };
 const getters={
   APIAddress:(state)=>{
@@ -35,6 +37,9 @@ const getters={
   },
   getPriorityData:(state)=>{
     return state.APIAddress + state.prioritydata;
+  },
+  getUnassignedData:(state)=>{
+    return state.APIAddress + state.unassigneddata;
   },
   getProgram:(state)=>{
     return state.APIAddress + state.getProgram;
@@ -68,6 +73,9 @@ const getters={
   },
   login:(state) => {
     return state.root + state.login;
+  },
+  download:(state) =>{
+    return state.APIAddress + state.download;
   }
 };
 const actions={};

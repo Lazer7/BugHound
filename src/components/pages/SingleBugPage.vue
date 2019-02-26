@@ -114,6 +114,19 @@
               {{data.deferred?"Yes":"No"}}
             </p>
           </div>
+          <strong v-if="attachments.length!==0">Attachments:</strong>
+          <div class="columns" v-for="(list,index) in chunkFiles" :key="index">
+            <div
+              class="column is-3 has-text-centered"
+              v-for="(file,index) in list"
+              :key="index"
+              @click="download(file)"
+            >
+              <img width="25%" :src="getFileType(file.filename)">
+              <br>
+              {{file.filename.substring(10)}}
+            </div>
+          </div>
         </div>
       </article>
       <div class="has-text-right">
@@ -132,7 +145,7 @@
 
 <script>
 import axios from "axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 export default {
   name: "BugBox",
   props: ["data", "employeeList", "programList"],
@@ -162,14 +175,63 @@ export default {
         "Duplicate"
       ],
       ResolutionVersionData: ["1.0", "2.0", "3.0"],
-      program: {}
+      program: {},
+      attachments: []
     };
   },
   mounted() {
     var self = this;
     this.program = this.filterProgram(this.data.programid);
+    axios
+      .get(this.$store.getters["routes/attachmentRoute"] + this.data.id)
+      .then(result => {
+        self.attachments = result.data.attachments;
+      });
+  },
+  computed: {
+    chunkFiles() {
+      var chunkFiles = [];
+      for (var i = 0, j = this.attachments.length; i < j; i += 4) {
+        chunkFiles.push(this.attachments.slice(i, i + 4));
+      }
+      return chunkFiles;
+    }
   },
   methods: {
+    download(value) {
+      axios({
+        url: this.$store.getters["routes/download"] + value.filename.substring(10),
+        method: "GET",
+        responseType: "blob" // important
+      }).then(result  => {
+        const url = window.URL.createObjectURL(new Blob([result .data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", value.filename.substring(10));
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    getFileType(value) {
+      var index = value.lastIndexOf(".");
+      var suffix = value.substring(index).toLowerCase();
+      if (suffix.includes("bmp")) return require("../../assets/icons/bmp.png");
+      else if (suffix.includes("dat"))
+        return require("../../assets/icons/dat.png");
+      else if (suffix.includes("doc"))
+        return require("../../assets/icons/doc.png");
+      else if (suffix.includes("gif"))
+        return require("../../assets/icons/gif.png");
+      else if (suffix.includes("jpg"))
+        return require("../../assets/icons/jpeg.png");
+      else if (suffix.includes("mp3"))
+        return require("../../assets/icons/mp3.png");
+      else if (suffix.includes("pdf"))
+        return require("../../assets/icons/pdf.png");
+      else if (suffix.includes("png"))
+        return require("../../assets/icons/png.png");
+      else return require("../../assets/icons/missing.png");
+    },
     filterProgram(id) {
       return this.programList.find(program => {
         return program.id === id;
@@ -212,7 +274,6 @@ export default {
       );
     },
     toggleEdit() {
-      console.log(this.data);
       this.$store.dispatch("userInfo/setCurrentPage", 3);
       this.$router.push({ name: "BugSubmission", params: { data: this.data } });
     },

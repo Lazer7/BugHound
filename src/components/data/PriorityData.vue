@@ -18,15 +18,17 @@ export default {
     };
   },
   mounted() {
-    axios.get(this.$store.getters["routes/getPriorityData"] + this.user.id).then(result => {
-      result.data.bugs.forEach(bug => {
-        if (bug.priority === null) bug.priority = "Not Set";
-        this.labels.push("Priority:" + bug.priority);
-        this.data.push(bug.bugscount);
-        this.color.push("#" + ((Math.random() * 0xffffff) << 0).toString(16));
-        this.createPie();
+    axios
+      .get(this.$store.getters["routes/getPriorityData"] + this.user.id)
+      .then(result => {
+        result.data.bugs.forEach(bug => {
+          if (bug.priority === null) bug.priority = "Not Set";
+          this.labels.push("Priority:" + bug.priority);
+          this.data.push(bug.bugscount);
+          this.color.push("#" + ((Math.random() * 0xffffff) << 0).toString(16));
+          this.createPie();
+        });
       });
-    });
   },
   methods: {
     createPie() {
@@ -42,6 +44,18 @@ export default {
           },
           tooltips: {
             enabled: false
+          },
+          options: {
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    stepSize: 1 
+                  }
+                }
+              ]
+            }
           }
         }
       });

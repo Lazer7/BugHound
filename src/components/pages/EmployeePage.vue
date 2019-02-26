@@ -75,7 +75,6 @@ export default {
       });
     },
     toggleEdit(value) {
-      console.log(value);
       this.editData = value;
       this.editModal = true;
     },

@@ -61,11 +61,8 @@ export default {
     toggleSignin(value){
       this.signup=value;
     },
-
-
     gohomepage(){
         this.$router.push('/');
-        console.log('clicked');
     },
     
   }

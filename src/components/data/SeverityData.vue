@@ -24,7 +24,6 @@ export default {
   },
   mounted() {
     axios.get(this.$store.getters["routes/getSeverityData"] + this.user.id).then(result => {
-      console.log(result);
       result.data.bugs.forEach(bug => {
         this.labels.push(this.severityData[bug.severity-1]);
         this.data.push(bug.bugscount);
