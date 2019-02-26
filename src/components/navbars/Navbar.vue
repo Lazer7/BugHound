@@ -17,7 +17,7 @@
                 <a class="navbar-item" @click="gohomepage">
                     Home
                 </a>
-                <a class="navbar-item">
+                <a class="navbar-item" @click="godocumentation">
                     Documentation
                 </a>
             </div>
@@ -64,6 +64,9 @@ export default {
     gohomepage(){
         this.$router.push('/');
     },
+    godocumentation(){
+        this.$router.push('/Documents')
+    }
     
   }
 }

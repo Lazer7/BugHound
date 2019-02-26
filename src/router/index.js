@@ -11,6 +11,7 @@ import CompanyBugList from '@/components/pages/CompanyBugList';
 import BugSubmission from '@/components/pages/BugSubmissionPage';
 import Area from '@/components/pages/AreaPages';
 import SingleBugPage from '@/components/pages/SingleBugPage';
+import Documentation from '@/components/pages/DocumentationPage';
 import store from '../store/index';
 Vue.use(Router);
 Vue.use(store);
@@ -22,6 +23,11 @@ export default new Router({
       path: '/',
       name: 'Homepage',
       component: Homepage
+    },
+    {
+      path:'/Documents',
+      name:'Document',
+      component:Documentation
     },
     {
       path:'/Main',
