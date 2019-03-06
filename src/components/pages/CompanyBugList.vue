@@ -25,6 +25,7 @@
         </div>
       </div>
       <button class="button" @click="advance=true">Advanced Search</button>
+      <button class="button" @click="reset">Reset</button>
     </div>
     <div class="container">
       <div class="box" v-for="(bug,index) in currentBuglist" :key="index">
@@ -84,6 +85,9 @@ export default {
     });
   },
   methods: {
+    reset(){
+      this.currentBuglist = this.buglist;
+    },
     advanceSearch(value) {
       this.advance = false;
       if (value) {

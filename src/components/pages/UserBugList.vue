@@ -24,6 +24,7 @@
           </b-field>
         </div>
       </div>
+      <button class="button" @click="reset">Reset</button>
     </div>
     <div class="container">
       <div class="box" v-for="(bug,index) in currentBuglist" :key="index">
@@ -102,6 +103,9 @@ export default {
         this.field = undefined;
         this.search = undefined;
       }
+    },
+    reset(){
+      this.currentBuglist = this.buglist;
     },
     updateList() {
       if (this.field === undefined) {

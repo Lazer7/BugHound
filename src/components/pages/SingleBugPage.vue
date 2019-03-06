@@ -129,7 +129,7 @@
           </div>
         </div>
       </article>
-      <div class="has-text-right">
+      <div v-if="isElevated" class="has-text-right">
         <a class="button" @click="toggleEdit()">
           <v-icon name="edit"/>
           <label>Edit</label>
@@ -195,16 +195,20 @@ export default {
         chunkFiles.push(this.attachments.slice(i, i + 4));
       }
       return chunkFiles;
+    },
+    isElevated() {
+      return this.$store.getters["userInfo/User"].userlevel >= 2;
     }
   },
   methods: {
     download(value) {
       axios({
-        url: this.$store.getters["routes/download"] + value.filename.substring(10),
+        url:
+          this.$store.getters["routes/download"] + value.filename.substring(10),
         method: "GET",
         responseType: "blob" // important
-      }).then(result  => {
-        const url = window.URL.createObjectURL(new Blob([result .data]));
+      }).then(result => {
+        const url = window.URL.createObjectURL(new Blob([result.data]));
         const link = document.createElement("a");
         link.href = url;
         link.setAttribute("download", value.filename.substring(10));
@@ -296,8 +300,7 @@ export default {
               Swal.fire({
                 background: "#2d2d2d",
                 title: `<span style="color:#FF0000">Oops.. OwO</span>`,
-                html:
-                  `<span style="color:#FF0000">Cannot delete bug as it is currently in use!</span>`,
+                html: `<span style="color:#FF0000">Cannot delete bug as it is currently in use!</span>`,
                 type: "error"
               });
             });

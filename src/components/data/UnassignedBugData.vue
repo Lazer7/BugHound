@@ -21,13 +21,13 @@ export default {
   },
   mounted() {
     var self = this;
-    IOdometer.props.theme.default = "car";
     axios.get(this.$store.getters["routes/getUnassignedData"]).then(result => {
       self.change(result.data.bugs.length);
     });
   },
   methods: {
     change(value) {
+      IOdometer.props.theme.default = "car";
       this.num = value;
     }
   }

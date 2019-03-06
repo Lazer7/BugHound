@@ -12,21 +12,21 @@
         <ul class="menu-list">
          <li><a :class="getTab(1)" @click=" toUserBugPage(1)">Your Bug List</a></li>
             <li><a :class="getTab(2)" @click=" toCompanyBugPage(2)">View All Bugs</a></li>
-            <li><a :class="getTab(3)" @click="toBugSubmissionPage(3)"> Submit New Bug </a></li>
+            <li><a v-if="isElevated" :class="getTab(3)" @click="toBugSubmissionPage(3)"> Submit New Bug </a></li>
         </ul>
-        <p class="menu-label">
+        <p v-if="isAdmin" class="menu-label">
             Programs
         </p>
         <ul class="menu-list">
-            <li><a :class="getTab(4)" @click=" toAddProgramPage(4)">Add New Program</a></li>
-            <li><a :class="getTab(5)" @click=" toJoinProgramPage(5)">Join Program</a></li>
-            <li><a :class="getTab(6)" @click=" toAreaPage(6)">Add Area</a></li>
+            <li><a v-if="isAdmin" :class="getTab(4)" @click=" toAddProgramPage(4)">Add New Program</a></li>
+            <li><a v-if="isAdmin" :class="getTab(5)" @click=" toJoinProgramPage(5)">Join Program</a></li>
+            <li><a v-if="isAdmin" :class="getTab(6)" @click=" toAreaPage(6)">Add Area</a></li>
         </ul>
-        <p class="menu-label">
+        <p v-if="isAdmin" class="menu-label">
             Administration
         </p>
         <ul class="menu-list">
-            <li><a :class="getTab(7)" @click=" toEmployeePage(7)">View Employee Information</a></li>
+            <li><a v-if="isAdmin" :class="getTab(7)" @click=" toEmployeePage(7)">View Employee Information</a></li>
         </ul>
     </aside>
 </template>
@@ -35,6 +35,17 @@ export default {
     name:"contextmenu",
     mounted(){
         this.$router.push('Main/Dashboard');
+    },
+    computed:{
+        isBasic(){
+            return this.$store.getters['userInfo/User'].userlevel ===1;
+        },
+        isElevated(){
+            return this.$store.getters['userInfo/User'].userlevel >=2;
+        },
+        isAdmin(){
+            return this.$store.getters['userInfo/User'].userlevel >=3;
+        }
     },
     methods:{
         getTab(value){
