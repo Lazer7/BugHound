@@ -15,12 +15,14 @@
           <thead>
             <tr>
               <th>Area Name</th>
+              <th>Program</th>
               <th>Tools</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(value,index) in data" :key="index">
               <th class="has-text-left">{{value.name}}</th>
+              <th> {{getProgram(value.programid)}}  </th>
               <th>
                 <!-- <a class="button" @click="toggleSubmission(value)"> <v-icon name="edit"/><label>Edit</label></a>  -->
                 <a class="button" @click="toggleDelete(value)">
@@ -38,7 +40,7 @@
 </template>
 <script>
 import submission from "../modals/AreaSubmission";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import axios from "axios";
 export default {
   name: "BugReport",
@@ -47,8 +49,9 @@ export default {
   },
   data() {
     return {
-      data: ["Top", "Right", "Left", "Bottom"],
+      data: [],
       editData: {},
+      programData:[],
       modal: false
     };
   },
@@ -59,8 +62,17 @@ export default {
     getValue() {
       var self = this;
       axios.get(this.$store.getters["routes/getArea"]).then(result => {
+        console.log(result)
         self.data = result.data.areas;
       });
+
+      axios.get(this.$store.getters["routes/getProgram"]).then(result => {
+        self.programData = result.data.programs;
+      });
+    },
+    getProgram(id){
+      var program = programData.find(element=>element.id=id);
+      return program.name + " V:" + program.version + " R:" + program.release;
     },
     toggleDelete(value) {
       var self = this;
@@ -85,8 +97,7 @@ export default {
               Swal.fire({
                 background: "#2d2d2d",
                 title: `<span style="color:#FF0000">Oops.. OwO</span>`,
-                html:
-                  `<span style="color:#FF0000">Cannot delete area as it is currently in use!</span>`,
+                html: `<span style="color:#FF0000">Cannot delete area as it is currently in use!</span>`,
                 type: "error"
               });
             });

@@ -9,11 +9,19 @@
       </header>
       <section class="modal-card-body">
         <div class="has-text-left">
-         
           <b-field label="Area">
             <b-input v-model="name" placeholder="Project name" maxlength="32"/>
           </b-field>
-           <div class="danger">{{warning}}</div>
+          <b-field label="Program">
+            <b-select placeholder="Select Program" v-model="program">
+              <option
+                v-for="data in programData"
+                :value="data.id"
+                :key="data.id"
+              >{{ data.name }}</option>
+            </b-select>
+          </b-field>
+          <div class="danger">{{warning}}</div>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -30,12 +38,21 @@ export default {
   data() {
     return {
       name: "",
+      program: undefined,
+      programData: [],
       warning: ""
     };
+  },
+  mounted() {
+    var self = this;
+    axios.get(this.$store.getters["routes/getProgram"]).then(result => {
+      self.programData = result.data.programs;
+    });
   },
   computed: {
     validate() {
       if (this.name === "") return true;
+      if(this.program===undefined) return true;
       return false;
     }
   },
@@ -46,15 +63,16 @@ export default {
     submit() {
       var self = this;
       var body = {
-        name: this.name
+        name: this.name,
+        programid: this.program
       };
       axios
         .post(this.$store.getters["routes/areaRoute"], body)
         .then(result => {
           self.$snackbar.open({
-              message: "Successfully created a area!",
-              duration: 5000
-            });
+            message: "Successfully created a area!",
+            duration: 5000
+          });
           self.close();
         })
         .catch(err => {

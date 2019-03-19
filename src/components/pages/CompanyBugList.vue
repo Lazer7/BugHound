@@ -75,7 +75,7 @@ export default {
     var self = this;
     axios.get(this.$store.getters["routes/getBugs"]).then(result => {
       self.buglist = result.data.bugs;
-      self.currentBuglist = self.buglist;
+      self.reset();
     });
     axios.get(this.$store.getters["routes/getEmployees"]).then(result => {
       self.employees = result.data.employees;
@@ -87,6 +87,14 @@ export default {
   methods: {
     reset(){
       this.currentBuglist = this.buglist;
+      this.currentBuglist = this.currentBuglist.filter(element =>{
+        if(element.status){
+          return element.status=== 1;
+        } else 
+        {
+          return true;
+        }
+      })
     },
     advanceSearch(value) {
       this.advance = false;

@@ -96,7 +96,11 @@
           <div class="column is-3">
             <b-field label="Functional Area">
               <b-select placeholder="Functional Area" v-model="area">
-                <option v-for="(data,index) in AreaData" :value="data" :key="index">{{ data.name }}</option>
+                <option
+                  v-for="(data,index) in filterArea()"
+                  :value="data"
+                  :key="index"
+                >{{ data.name }}</option>
               </b-select>
             </b-field>
           </div>
@@ -425,6 +429,13 @@ export default {
         this.EmployeeList = EmployeeList;
       }
     },
+    filterArea() {
+      if (this.program)
+        return this.AreaData.filter(
+          element => element.programid === this.program.id
+        );
+      else return [];
+    },
     getValues() {
       var self = this;
       axios.get(this.$store.getters["routes/getProgram"]).then(result => {
@@ -560,8 +571,7 @@ export default {
             Swal.fire({
               background: "#2d2d2d",
               title: `<span style="color:#FF0000">Oops.. OwO</span>`,
-              html:
-                `<span style="color:#FF0000">Something went wrong!</span>`,
+              html: `<span style="color:#FF0000">Something went wrong!</span>`,
               type: "error"
             });
           });
