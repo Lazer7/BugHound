@@ -71,7 +71,7 @@ export default {
       });
     },
     getProgram(id){
-      var program = programData.find(element=>element.id=id);
+      var program = this.programData.find(element=>element.id===id);
       return program.name + " V:" + program.version + " R:" + program.release;
     },
     toggleDelete(value) {
