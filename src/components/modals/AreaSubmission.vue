@@ -77,7 +77,6 @@ export default {
         })
         .catch(err => {
           self.warning = "Area already exist!";
-          console.log(err)
         });
     }
   }

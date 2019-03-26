@@ -67,7 +67,7 @@
           <div class="content">
             <p v-if="data.area">
               <strong>Functional Area:</strong>
-              {{data.area}}
+              {{filterArea(data.area)}}
             </p>
             <p v-if="data.assignedto">
               <strong>Assigned To:</strong>
@@ -147,7 +147,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 export default {
-  name: "BugBox",
+  name: "SingleBugPage",
   props: ["data", "employeeList", "programList"],
   data() {
     return {
@@ -175,6 +175,7 @@ export default {
         "Duplicate"
       ],
       ResolutionVersionData: ["1.0", "2.0", "3.0"],
+      AreaData: [],
       program: {},
       attachments: []
     };
@@ -187,6 +188,10 @@ export default {
       .then(result => {
         self.attachments = result.data.attachments;
       });
+    axios.get(self.$store.getters["routes/getArea"]).then(result => {
+      self.AreaData = result.data.areas;
+
+    });
   },
   computed: {
     chunkFiles() {
@@ -240,6 +245,12 @@ export default {
       return this.programList.find(program => {
         return program.id === id;
       });
+    },
+    filterArea(id){
+      var area =  this.AreaData.find(area=>{
+        return area.id===id;
+      });
+      return area !== undefined ? area.name :"";
     },
     getImage(id) {
       if (id === 1) return require("../../assets/danger.png");

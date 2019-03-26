@@ -62,7 +62,6 @@ export default {
     getValue() {
       var self = this;
       axios.get(this.$store.getters["routes/getArea"]).then(result => {
-        console.log(result)
         self.data = result.data.areas;
       });
 

@@ -407,6 +407,11 @@ export default {
         return program.id === value;
       });
     },
+    findArea(value){
+      return this.AreaData.find(area=>{
+        return area.id===value;
+      });
+    },
     findEmployee(value) {
       return this.EmployeeData.find(employee => {
         return employee.id === value;
@@ -466,7 +471,7 @@ export default {
                       self.date_reported = new Date(self.data.datereported);
                       self.reproducible =
                         self.data.reproducible === 1 ? true : false;
-                      self.area = { name: self.data.area };
+                      self.area = self.findArea(this.data.area);
                       self.assigned_to = self.findEmployee(
                         self.data.assignedto
                       );
@@ -517,7 +522,7 @@ export default {
           : undefined;
       var assignedTo =
         this.assigned_to !== undefined ? this.assigned_to.id : undefined;
-      var areaName = this.area !== undefined ? this.area.name : undefined;
+      var areaName = this.area !== undefined ? this.area.id : undefined;
       var data = {
         programid: this.program.id,
         reporttype: this.report_type,
